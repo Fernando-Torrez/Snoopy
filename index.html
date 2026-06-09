@@ -4,261 +4,272 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Mel ✨</title>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Lora:ital,wght@0,400;1,400&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --snoopy-red: #e74c3c;
-            --snoopy-yellow: #f1c40f;
-            --bg-cream: #fffdf9;
-            --text-dark: #2c3e50;
-            --rose-bg: #ffebee;
+            --latte-dark: #5c4033;
+            --latte-medium: #8b5a2b;
+            --latte-light: #c19a6b;
+            --cream-bg: #fffbf4;
+            --rose-accent: #e8a7a1;
+            --text-main: #3e2723;
         }
 
         * { box-sizing: border-box; }
 
         body {
             margin: 0; padding: 20px;
-            font-family: 'Comfortaa', cursive;
+            font-family: 'Quicksand', sans-serif;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: var(--rose-bg);
-            background-image: radial-gradient(rgba(0,0,0,0.03) 15%, transparent 15%);
-            background-size: 20px 20px;
+            /* Fondo que simula una mesa de café acogedora con luces suaves */
+            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.4) 0%, transparent 60%),
+                        linear-gradient(135deg, #ecdcc9 0%, #b8977e 100%);
             overflow-x: hidden;
         }
 
-        /* Contenedor Tira Cómica Activa */
-        .comic-panel {
+        /* Contenedor Estilo Postal Clásica */
+        .postal-card {
             width: 100%;
-            max-width: 440px;
-            background: var(--bg-cream);
-            border: 4px solid var(--text-dark);
-            border-radius: 28px;
-            box-shadow: 10px 10px 0px var(--text-dark);
-            padding: 35px 26px;
+            max-width: 460px;
+            background: var(--cream-bg);
+            border-radius: 16px;
+            box-shadow: 0 20px 45px rgba(92, 64, 51, 0.25), 
+                        inset 0 0 40px rgba(193, 154, 107, 0.08);
+            border: 1px solid rgba(92, 64, 51, 0.15);
+            padding: 40px 30px 35px;
+            position: relative;
+            transform: translateY(15px);
+            opacity: 0;
+            animation: postalFadeIn 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* Línea divisoria estilo timbre postal antiguo */
+        .postal-card::before {
+            content: "";
+            position: absolute;
+            top: 25px; right: 25px;
+            width: 50px; height: 60px;
+            border: 2px dashed rgba(92, 64, 51, 0.2);
+            background: rgba(232, 167, 161, 0.05);
+            border-radius: 4px;
+        }
+
+        /* --- ILUSTRACIÓN DE CAFETERÍA (CSS PURO) --- */
+        .cafe-scene {
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
-            transform: translateY(30px);
-            opacity: 0;
-            animation: panelAppear 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        /* Encabezado */
-        .comic-header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 4px solid var(--text-dark);
-            padding-bottom: 14px;
             margin-bottom: 30px;
-            font-family: 'Caveat', cursive;
-            font-size: 1.9rem;
-            color: var(--text-dark);
-        }
-        .tag-to { color: var(--snoopy-red); }
-        .tag-from { background: var(--text-dark); color: white; padding: 2px 14px; border-radius: 12px; }
-
-        /* --- ANIMACIÓN AVANZADA DE SNOOPY (CSS PURO) --- */
-        .snoopy-container {
             position: relative;
-            width: 220px;
-            height: 160px;
-            margin-bottom: 25px;
-            cursor: pointer;
-        }
-
-        /* Casita Roja */
-        .doghouse {
-            position: absolute;
-            bottom: 0; left: 45px;
-            width: 130px; height: 75px;
-            background: var(--snoopy-red);
-            border: 4px solid var(--text-dark);
-            border-top: 6px solid var(--text-dark);
-        }
-        .doghouse-roof {
-            position: absolute;
-            bottom: 71px; left: 35px;
-            width: 150px; height: 12px;
-            background: var(--text-dark);
-            border-radius: 4px;
-            transform: rotate(0deg);
-        }
-
-        /* Snoopy Acostado */
-        .snoopy-body {
-            position: absolute;
-            bottom: 79px; left: 60px;
-            width: 90px; height: 26px;
-            background: white;
-            border: 4px solid var(--text-dark);
-            border-bottom: none;
-            border-radius: 15px 15px 0 0;
-            transition: transform 0.3s ease;
-        }
-        .snoopy-head {
-            position: absolute;
-            bottom: 92px; left: 110px;
-            width: 46px; height: 32px;
-            background: white;
-            border: 4px solid var(--text-dark);
-            border-radius: 20px 22px 15px 15px;
-            transition: transform 0.4s ease;
-        }
-        .snoopy-nose {
-            position: absolute;
-            top: 8px; right: -8px;
-            width: 10px; height: 10px;
-            background: var(--text-dark);
-            border-radius: 50%;
-        }
-        .snoopy-ear {
-            position: absolute;
-            top: 6px; left: 4px;
-            width: 14px; height: 22px;
-            background: var(--text-dark);
-            border-radius: 50%;
-            transform: rotate(5deg);
-        }
-        .snoopy-paws {
-            position: absolute;
-            bottom: 79px; left: 75px;
-            width: 12px; height: 12px;
-            background: white;
-            border: 4px solid var(--text-dark);
-            border-radius: 50%;
-        }
-
-        /* Efecto de Reacción / Animación al pasar el mouse o tocar */
-        .snoopy-container:hover .snoopy-head {
-            transform: translateY(-6px) rotate(-8px);
-        }
-        .snoopy-container:hover .love-heart {
-            opacity: 1;
-            transform: scale(1.2) translateY(-25px) rotate(-45deg);
-        }
-
-        /* Corazón que emerge de Snoopy */
-        .love-heart {
-            position: absolute;
-            top: 5px; left: 100px;
-            width: 25px; height: 25px;
-            background: var(--snoopy-red);
-            transform: rotate(-45deg) scale(0);
-            border: 2px solid var(--text-dark);
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .love-heart::before, .love-heart::after {
-            content: ""; position: absolute;
-            width: 25px; height: 25px;
-            background: var(--snoopy-red); border-radius: 50%;
-        }
-        .love-heart::before { top: -13px; left: 0; }
-        .love-heart::after { left: 13px; top: 0; }
-
-
-        /* --- TEXTO DEDICADO --- */
-        .text-stream {
             width: 100%;
+            height: 120px;
+        }
+
+        /* Ventana de la cafetería al fondo */
+        .cafe-window {
+            position: absolute;
+            top: 0; width: 110px; height: 80px;
+            border: 3px solid rgba(92, 64, 51, 0.15);
+            border-bottom: 4px solid rgba(92, 64, 51, 0.25);
+            border-radius: 50px 50px 0 0;
+            background: linear-gradient(180deg, rgba(232, 167, 161, 0.1) 0%, rgba(255,255,255,0) 100%);
+        }
+
+        /* Taza de café */
+        .coffee-cup {
+            position: absolute;
+            bottom: 5px;
+            width: 64px; height: 48px;
+            background: white;
+            border: 3px solid var(--latte-dark);
+            border-radius: 4px 4px 24px 24px;
+            box-shadow: 0 4px 10px rgba(92, 64, 51, 0.1);
+            cursor: pointer;
+            z-index: 2;
+        }
+        /* Asa de la taza */
+        .coffee-cup::after {
+            content: ""; position: absolute;
+            top: 8px; right: -15px;
+            width: 14px; height: 22px;
+            border: 3px solid var(--latte-dark);
+            border-left: none;
+            border-radius: 0 12px 12px 0;
+        }
+        /* Plato de la taza */
+        .cup-saucer {
+            position: absolute;
+            bottom: 0; width: 84px; height: 6px;
+            background: var(--latte-dark);
+            border-radius: 4px;
+            z-index: 1;
+        }
+
+        /* Animación del vapor humeante */
+        .steam-lines {
+            position: absolute;
+            bottom: 55px;
+            display: flex;
+            gap: 8px;
+            z-index: 3;
+        }
+        .steam {
+            width: 3px; height: 18px;
+            background: var(--latte-light);
+            border-radius: 3px;
+            opacity: 0;
+            animation: riseSteam 2.5s infinite linear;
+        }
+        .steam:nth-child(1) { animation-delay: 0s; }
+        .steam:nth-child(2) { animation-delay: 0.8s; transform: translateX(1px); }
+        .steam:nth-child(3) { animation-delay: 1.6s; }
+
+        /* --- CONTENIDO DE LA POSTAL --- */
+        .postal-text-area {
+            width: 100%;
+        }
+
+        .postal-header {
+            font-family: 'Caveat', cursive;
+            font-size: 2.6rem;
+            color: var(--latte-dark);
+            margin: 0 0 20px;
             text-align: center;
         }
 
-        .salutation {
-            font-family: 'Caveat', cursive;
-            font-size: 2.5rem;
-            color: var(--text-dark);
-            margin: 0 0 20px;
-            opacity: 0;
-            animation: fadeInText 0.8s ease forwards 0.4s;
-        }
-
-        .paragraph {
+        .postal-p {
             font-family: 'Lora', serif;
             font-size: 1.05rem;
-            line-height: 1.7;
-            color: var(--text-dark);
+            line-height: 1.75;
+            color: var(--text-main);
             text-align: justify;
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeInText 0.8s ease forwards;
+            margin-bottom: 22px;
+            text-indent: 15px;
         }
 
-        /* Delays para cascada de lectura fluida */
-        .p-1 { animation-delay: 0.8s; }
-        .p-2 { animation-delay: 1.6s; }
-        .p-3 { animation-delay: 2.4s; }
+        .sweet-highlight {
+            color: var(--latte-medium);
+            font-weight: 500;
+            border-bottom: 1px dashed var(--rose-accent);
+        }
 
-        .marked {
-            background: linear-gradient(180deg, transparent 65%, var(--snoopy-yellow) 65%);
+        .postal-footer {
+            margin-top: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            border-top: 1px solid rgba(92, 64, 51, 0.1);
+            padding-top: 20px;
+        }
+
+        .signature-line {
+            font-family: 'Caveat', cursive;
+            font-size: 2.2rem;
+            color: var(--latte-dark);
+            line-height: 1.2;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .signature-sub {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--latte-light);
+            margin-top: 4px;
             font-weight: 600;
         }
 
-        .signature-area {
-            font-family: 'Caveat', cursive;
-            font-size: 2.2rem;
-            color: var(--text-dark);
-            text-align: center;
-            margin-top: 35px;
-            line-height: 1.3;
-            opacity: 0;
-            animation: fadeInText 1s ease forwards 3.2s;
-        }
-
-        /* Animaciones clave */
-        @keyframes panelAppear {
+        /* Animaciones */
+        @keyframes postalFadeIn {
             to { transform: translateY(0); opacity: 1; }
         }
-        @keyframes fadeInText {
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes riseSteam {
+            0% { transform: translateY(5px) scaleX(1); opacity: 0; }
+            15% { opacity: 0.5; }
+            50% { transform: translateY(-10px) scaleX(1.3); opacity: 0.3; }
+            85% { opacity: 0; }
+            100% { transform: translateY(-22px) scaleX(0.8); opacity: 0; }
+        }
+
+        /* Corazones aromáticos al interactuar */
+        .aroma-heart {
+            position: fixed; pointer-events: none; z-index: 999;
+            color: var(--rose-accent); font-size: 18px;
         }
     </style>
 </head>
 <body>
 
-    <div class="comic-panel">
-        <header class="comic-header">
-            <span class="tag-to">Para: Mel ❤️</span>
-            <span class="tag-from">De: Fer</span>
-        </header>
-
-        <div class="snoopy-container" title="Toca a Snoopy">
-            <div class="love-heart"></div>
-            <div class="doghouse"></div>
-            <div class="doghouse-roof"></div>
-            <div class="snoopy-body"></div>
-            <div class="snoopy-paws"></div>
-            <div class="snoopy-head">
-                <div class="snoopy-ear"></div>
-                <div class="snoopy-nose"></div>
+    <div class="postal-card">
+        <div class="cafe-scene" id="cafeScene" title="Un café para recordar">
+            <div class="cafe-window"></div>
+            <div class="steam-lines">
+                <div class="steam"></div>
+                <div class="steam"></div>
+                <div class="steam"></div>
             </div>
+            <div class="coffee-cup" id="coffeeCup"></div>
+            <div class="cup-saucer"></div>
         </div>
 
-        <main class="text-stream">
-            <h1 class="salutation">Hola, Mel...</h1>
+        <main class="postal-text-area">
+            <h1 class="postal-header">Hola, Mel...</h1>
             
-            <p class="paragraph p-1">
-                Le preparé este pequeño espacio porque no quería dejar pasar el momento sin expresarle algo importante. Primero que nada, quiero darle las <span class="marked">gracias por la salida tan especial</span> que compartimos juntos. Fue un día increíble y valoro infinitamente lo linda, atenta y maravillosa que fue conmigo.
+            <p class="postal-p">
+                Le escribo estas líneas pensando en lo reconfortante que es recordar los momentos bonitos. Quería tomarme un instante para darle las <span class="sweet-highlight">gracias por esa salida tan especial</span> que compartimos. Hacía tiempo que no disfrutaba de una plática tan transparente, y valoro muchísimo lo linda y atenta que fue conmigo en todo momento.
             </p>
 
-            <p class="paragraph p-2">
-                Debo confesarle que me tiene completamente <span class="marked">cautivado con la dulzura de su personalidad</span>. Pero, por encima de todo, hay dos cosas de Usted de las que no puedo olvidarme: me fascinan por completo sus ojos y esa preciosa sonrisa que comparte al conversar. 
+            <p class="postal-p">
+                Tengo que confesarle que me quedé completamente <span class="sweet-highlight">cautivado por la dulzura de su personalidad</span>. Hay algo tan auténtico en Usted, algo que se refleja perfectamente en la calidez de sus ojos y en esa hermosa sonrisa que tiene cuando se ríe. Conversar a su lado se siente como un refugio de paz.
             </p>
 
-            <p class="paragraph p-3">
-                Mirando hacia atrás, me alegra tanto saber que valió absolutamente la pena haber tomado el riesgo de enviarle aquel primer mensaje. Ha traído cosas hermosas y ahora mismo lo único que deseo es <span class="marked">seguir estando presente</span>, acompañarla y ver cómo cumplimos cada uno de esos planes que vamos armando juntos.
+            <p class="postal-p">
+                Desde que empezamos a hablar con más confianza, he descubierto en Usted a alguien sumamente especial. Por eso, hoy me nace decirle desde el corazón que <span class="sweet-highlight">siempre quiero estar presente</span> en su vida. Me llena de una ilusión muy genuina ver cómo va cobrando forma esa lista de planes que estamos armando juntos, con todas las ganas de cumplirlos y crear recuerdos hermosos a su lado.
             </p>
 
-            <div class="signature-area">
-                Con muchísimo cariño,<br>Fer 🐾
-            </div>
+            <footer class="postal-footer">
+                <div class="signature-line">Con todo mi cariño,<br>Fer</div>
+                <div class="signature-sub">Para alguien inolvidable</div>
+            </footer>
         </main>
     </div>
 
+    <script>
+        const coffeeCup = document.getElementById('coffeeCup');
+
+        // Efecto visual interactivo al tocar la taza de café
+        function spawnAroma() {
+            for(let i=0; i<6; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'aroma-heart';
+                heart.innerHTML = '☕';
+                
+                // Centrado en la taza
+                const rect = coffeeCup.getBoundingClientRect();
+                heart.style.left = (rect.left + rect.width / 2) + 'px';
+                heart.style.top = rect.top + 'px';
+                
+                document.body.appendChild(heart);
+                
+                const angle = (Math.random() * Math.PI) + Math.PI; // Solo hacia arriba
+                const dist = 40 + Math.random() * 60;
+                
+                heart.animate([
+                    { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 1 },
+                    { transform: `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px)) scale(1.2)`, opacity: 0 }
+                ], { duration: 1500, easing: 'ease-out' });
+                
+                setTimeout(() => heart.remove(), 1500);
+            }
+        }
+
+        coffeeCup.addEventListener('click', spawnAroma);
+        // También funciona al pasar el cursor para computadoras
+        coffeeCup.addEventListener('mouseenter', spawnAroma);
+    </script>
 </body>
 </html>
