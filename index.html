@@ -1,1 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un detalle para Usted</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Lora:ital,wght@0,400;1,400&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+    <style>
+        :root {
+            --snoopy-red: #e74c3c;
+            --snoopy-yellow: #f1c40f;
+            --bg-cream: #fffdf9;
+            --text-dark: #2c3e50;
+            --rose-pastel: #fbc2c4;
+        }
 
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Comfortaa', cursive;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            /* Fondo inspirado en Peanuts: textura suave y tonos cálidos */
+            background-color: #fce4ec;
+            background-image: radial-gradient(var(--rose-pastel) 20%, transparent 20%),
+                              radial-gradient(var(--rose-pastel) 20%, transparent 20%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+
+        /* Contenedor de la Tarjeta 3D */
+        .card-container {
+            position: relative;
+            width: 90%;
+            max-width: 380px;
+            height: 540px;
+            perspective: 1500px;
+            z-index: 10;
+        }
+
+        /* La Tarjeta que gira */
+        .snoopy-card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        /* Estado Abierto */
+        .card-container.open .snoopy-card {
+            transform: rotateY(180deg);
+        }
+
+        /* Caras de la Tarjeta */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 24px;
+            background: var(--bg-cream);
+            border: 4px solid var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+        }
+
+        /* PORTADA */
+        .card-front {
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Patrón icónico de Charlie Brown en los bordes de la portada */
+        .card-front::before {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; right: 0; height: 20px;
+            background: repeat-x bottom left url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><polygon points="0,20 5,10 10,20 15,10 20,20" fill="%23f1c40f"/></svg>');
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+        }
+
+        /* Ilustración CSS Minimalista de la casita de Snoopy */
+        .snoopy-illustration {
+            position: relative;
+            width: 160px;
+            height: 180px;
+            margin-bottom: 20px;
+        }
+
+        .doghouse-roof {
+            position: absolute;
+            bottom: 0; left: 20px;
+            width: 120px; height: 100px;
+            background: var(--snoopy-red);
+            border: 4px solid var(--text-dark);
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        /* Snoopy durmiendo arriba */
+        .snoopy-sleeping {
+            position: absolute;
+            top: 45px; left: 35px;
+            width: 90px; height: 35px;
+            background: white;
+            border: 4px solid var(--text-dark);
+            border-radius: 20px 20px 10px 10px;
+        }
+        /* Oreja de Snoopy */
+        .snoopy-sleeping::after {
+            content: "";
+            position: absolute;
+            top: 8px; left: 15px;
+            width: 18px; height: 22px;
+            background: var(--text-dark);
+            border-radius: 50%;
+        }
+
+        .front-title {
+            font-family: 'Caveat', cursive;
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            text-align: center;
+            margin: 10px 0 5px;
+        }
+
+        .front-subtitle {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            animation: pulse 2s infinite;
+        }
+
+        /* REVERSO (LA CARTA INTERIOR) */
+        .card-back {
+            transform: rotateY(180deg);
+            overflow-y: auto;
+            justify-content: flex-start;
+        }
+
+        /* Botón de cierre */
+        .close-card-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            width: 32px; height: 32px;
+            background: #f0f3f4;
+            color: var(--text-dark);
+            border: 3px solid var(--text-dark);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-weight: bold; font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            z-index: 15;
+        }
+        .close-card-btn:hover { background: var(--snoopy-yellow); }
+
+        .letter-title {
+            font-family: 'Caveat', cursive;
+            font-size: 2.5rem;
+            color: var(--snoopy-red);
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .letter-text {
+            font-family: 'Lora', serif;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+            text-align: justify;
+            margin-bottom: 12px;
+            padding: 0 5px;
+        }
+
+        .highlight {
+            color: var(--snoopy-red);
+            font-weight: 600;
+        }
+
+        .question {
+            text-align: center;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 15px 0 10px;
+            font-size: 0.95rem;
+        }
+
+        /* Botones Peanuts Style */
+        .buttons-group { display: flex; gap: 12px; justify-content: center; width: 100%; margin-bottom: 10px; }
+        .btn {
+            border: 3px solid var(--text-dark);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: scale(0.95); }
+        
+        .btn-yes { background: var(--snoopy-yellow); color: var(--text-dark); box-shadow: 4px 4px 0px var(--text-dark); }
+        .btn-no { background: #fff; color: #7f8c8d; box-shadow: 4px 4px 0px var(--text-dark); }
+
+        .status-message { text-align: center; font-weight: 600; display: none; color: var(--snoopy-red); font-size: 0.95rem; margin-top: 10px; }
+
+        .signature {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: var(--text-dark);
+            text-align: center;
+            margin-top: 15px;
+            line-height: 1.2;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Corazones flotantes estilo cómic */
+        .woodstock-heart {
+            position: fixed; pointer-events: none; z-index: 999;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container" id="cardContainer">
+        <div class="snoopy-card">
+            
+            <div class="card-front" id="openCard">
+                <div class="snoopy-illustration">
+                    <div class="snoopy-sleeping"></div>
+                    <div class="doghouse-roof"></div>
+                </div>
+                <h1 class="front-title">Un pequeño detalle para Usted...</h1>
+                <p class="front-subtitle">Toque aquí para abrir ✨</p>
+            </div>
+
+            <main class="card-back">
+                <div class="close-card-btn" id="closeCard">✕</div>
+                <h1 class="letter-title">Hola...</h1>
+                
+                <p class="letter-text">
+                    No quería dejar pasar el día sin escribirle esto. Primero que nada, quiero darle las <span class="highlight">gracias por la salida tan especial</span> que compartimos. Ha sido un momento hermoso y le agradezco infinitamente lo linda, atenta y dulce que fue conmigo.
+                </p>
+
+                <p class="letter-text">
+                    Debo confesarle que me fascinó verla; <span class="highlight">me tienen completamente cautivado sus ojos y la hermosa sonrisa</span> que dibuja cuando se ríe. Tiene una personalidad y una dulzura tan mágicas que, sin darse cuenta, logran que hablar con Usted se vuelva mi parte favorita del día.
+                </p>
+
+                <p class="letter-text">
+                    Sé que nuestro inicio tuvo tiempos un poco curiosos y no logré felicitarla en su cumpleaños, pero ver cómo se están dando las cosas me hace pensar que valió la pena arriesgarse con ese primer mensaje. Ahora mismo, lo único que deseo es que me permita <span class="highlight">seguir conociéndola y cumplir cada uno de los planes</span> que hemos ido imaginando juntos.
+                </p>
+
+                <p class="question">¿Me daría la oportunidad de una nueva cita?</p>
+
+                <div class="buttons-group" id="btnGroup">
+                    <button class="btn btn-yes" id="yesBtn">¡Sí, claro! 🐾</button>
+                    <button class="btn btn-no" id="noBtn">Quizá luego</button>
+                </div>
+
+                <div class="status-message" id="statusMsg"></div>
+
+                <div class="signature">Con muchísimo cariño,<br>El Inge 🐾</div>
+            </main>
+
+        </div>
+    </div>
+
+    <script>
+        emailjs.init('B1-PAr0OwHo-wb6FS');
+
+        const cardContainer = document.getElementById('cardContainer');
+        const openCard = document.getElementById('openCard');
+        const closeCard = document.getElementById('closeCard');
+        const btnGroup = document.getElementById('btnGroup');
+        const statusMsg = document.getElementById('statusMsg');
+
+        // Mecánica de Giro: Abrir
+        openCard.addEventListener('click', () => {
+            cardContainer.classList.add('open');
+        });
+
+        // Mecánica de Giro: Cerrar
+        closeCard.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evita reabrir al hacer click en el botón de cerrar
+            cardContainer.classList.remove('open');
+        });
+
+        // Corazones animados
+        function popComicHearts() {
+            for(let i=0; i<15; i++) {
+                const h = document.createElement('div');
+                h.className = 'woodstock-heart';
+                h.innerHTML = Math.random() > 0.5 ? '❤️' : '❤️';
+                h.style.left = '50%'; h.style.top = '50%';
+                document.body.appendChild(h);
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 100 + Math.random() * 150;
+                h.animate([
+                    { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
+                    { transform: `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px)) scale(1.2)`, opacity: 0 }
+                ], { duration: 1400, easing: 'ease-out' });
+                setTimeout(() => h.remove(), 1400);
+            }
+        }
+
+        // EmailJS integración
+        function sendResponse(accepted) {
+            btnGroup.style.display = 'none';
+            statusMsg.style.display = 'block';
+            statusMsg.innerHTML = "Enviando respuesta...";
+
+            const templateParams = {
+                to_email: 'appsinstalador1234@gmail.com',
+                message: accepted ? "✅ Aceptó la nueva cita (Snoopy Card)" : "❌ Dijo que después",
+                respuesta: accepted ? "Aceptó con gusto otra salida 💕" : "Pidió tiempo"
+            };
+
+            emailjs.send('service_2m33mni', 'template_2nh2ba8', templateParams)
+                .then(() => {
+                    if(accepted) {
+                        statusMsg.innerHTML = "¡Me hace inmensamente feliz! Nos vemos pronto. 🐾✨";
+                        popComicHearts();
+                    } else {
+                        statusMsg.innerHTML = "Entiendo perfectamente, muchas gracias por su sinceridad. 🌸";
+                    }
+                })
+                .catch(() => {
+                    statusMsg.innerHTML = "Hubo un error de red, ¡pero sé que la respuesta fue bonita! 😊";
+                });
+        }
+
+        document.getElementById('yesBtn').addEventListener('click', () => sendResponse(true));
+        document.getElementById('noBtn').addEventListener('click', () => sendResponse(false));
+    </script>
+</body>
+</html>
