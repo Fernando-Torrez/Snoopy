@@ -7,12 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Quicksand:wght@500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --latte-dark: #5c4033;
-            --latte-medium: #8b5a2b;
-            --latte-light: #c19a6b;
-            --cream-bg: #fffbf4;
-            --rose-accent: #e8a7a1;
-            --text-main: #3e2723;
+            --latte-dark: #4a3329;
+            --latte-medium: #7c5643;
+            --latte-light: #b08b75;
+            --cream-paper: #fdfaf4;
+            --gold-accent: #d4af37;
+            --text-color: #2b1f1d;
+            --shadow-cozy: rgba(74, 51, 41, 0.2);
         }
 
         * { box-sizing: border-box; }
@@ -24,252 +25,335 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Fondo que simula una mesa de café acogedora con luces suaves */
-            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.4) 0%, transparent 60%),
-                        linear-gradient(135deg, #ecdcc9 0%, #b8977e 100%);
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.3) 0%, transparent 80%),
+                        linear-gradient(135deg, #e3d1be 0%, #a88970 100%);
             overflow-x: hidden;
         }
 
-        /* Contenedor Estilo Postal Clásica */
-        .postal-card {
+        /* Postal Horizontal */
+        .landscape-postal {
             width: 100%;
-            max-width: 460px;
-            background: var(--cream-bg);
-            border-radius: 16px;
-            box-shadow: 0 20px 45px rgba(92, 64, 51, 0.25), 
-                        inset 0 0 40px rgba(193, 154, 107, 0.08);
-            border: 1px solid rgba(92, 64, 51, 0.15);
-            padding: 40px 30px 35px;
+            max-width: 680px;
+            height: 420px;
+            background: var(--cream-paper);
+            border-radius: 12px;
+            border: 1px solid rgba(74, 51, 41, 0.18);
+            box-shadow: 0 25px 55px var(--shadow-cozy), inset 0 0 30px rgba(176, 139, 117, 0.1);
+            padding: 30px;
+            display: flex;
+            gap: 25px;
             position: relative;
-            transform: translateY(15px);
+            transform: scale(0.95) translateY(20px);
             opacity: 0;
-            animation: postalFadeIn 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: postalReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* Línea divisoria estilo timbre postal antiguo */
-        .postal-card::before {
-            content: "";
-            position: absolute;
-            top: 25px; right: 25px;
-            width: 50px; height: 60px;
-            border: 2px dashed rgba(92, 64, 51, 0.2);
-            background: rgba(232, 167, 161, 0.05);
-            border-radius: 4px;
+        /* Línea Divisoria Postal Clásica */
+        .postal-divider {
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, rgba(74, 51, 41, 0.15) 15%, rgba(74, 51, 41, 0.15) 85%, transparent);
+            height: 100%;
         }
 
-        /* --- ILUSTRACIÓN DE CAFETERÍA (CSS PURO) --- */
-        .cafe-scene {
+        /* --- LADO IZQUIERDO: ILUSTRACIÓN DETALLADA --- */
+        .postal-visual {
+            flex: 0 0 220px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 30px;
             position: relative;
-            width: 100%;
-            height: 120px;
         }
 
-        /* Ventana de la cafetería al fondo */
-        .cafe-window {
-            position: absolute;
-            top: 0; width: 110px; height: 80px;
-            border: 3px solid rgba(92, 64, 51, 0.15);
-            border-bottom: 4px solid rgba(92, 64, 51, 0.25);
-            border-radius: 50px 50px 0 0;
-            background: linear-gradient(180deg, rgba(232, 167, 161, 0.1) 0%, rgba(255,255,255,0) 100%);
-        }
-
-        /* Taza de café */
-        .coffee-cup {
-            position: absolute;
-            bottom: 5px;
-            width: 64px; height: 48px;
-            background: white;
-            border: 3px solid var(--latte-dark);
-            border-radius: 4px 4px 24px 24px;
-            box-shadow: 0 4px 10px rgba(92, 64, 51, 0.1);
-            cursor: pointer;
-            z-index: 2;
-        }
-        /* Asa de la taza */
-        .coffee-cup::after {
-            content: ""; position: absolute;
-            top: 8px; right: -15px;
-            width: 14px; height: 22px;
-            border: 3px solid var(--latte-dark);
-            border-left: none;
-            border-radius: 0 12px 12px 0;
-        }
-        /* Plato de la taza */
-        .cup-saucer {
-            position: absolute;
-            bottom: 0; width: 84px; height: 6px;
-            background: var(--latte-dark);
-            border-radius: 4px;
-            z-index: 1;
-        }
-
-        /* Animación del vapor humeante */
-        .steam-lines {
-            position: absolute;
-            bottom: 55px;
+        /* Taza de Café desde una perspectiva semi-aérea */
+        .coffee-station {
+            position: relative;
+            width: 160px;
+            height: 160px;
             display: flex;
-            gap: 8px;
-            z-index: 3;
+            justify-content: center;
+            align-items: center;
         }
-        .steam {
-            width: 3px; height: 18px;
-            background: var(--latte-light);
-            border-radius: 3px;
+
+        .saucer {
+            position: absolute;
+            width: 140px; height: 140px;
+            background: #fff;
+            border: 2px solid rgba(74, 51, 41, 0.12);
+            border-radius: 50%;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+        .saucer-inner {
+            position: absolute;
+            width: 90px; height: 90px;
+            border: 1px dashed rgba(74, 51, 41, 0.2);
+            border-radius: 50%;
+        }
+
+        .cup {
+            position: absolute;
+            width: 85px; height: 85px;
+            background: #fff;
+            border: 3px solid var(--latte-dark);
+            border-radius: 50%;
+            box-shadow: 0 6px 15px rgba(74, 51, 41, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 5;
+            transition: transform 0.3s ease;
+        }
+        .cup:hover { transform: scale(1.03); }
+
+        /* Asa de la taza oculta abajo en ángulo */
+        .cup-handle {
+            position: absolute;
+            right: -12px; top: 25px;
+            width: 18px; height: 26px;
+            border: 3px solid var(--latte-dark);
+            border-radius: 0 10px 10px 0;
+            transform: rotate(15deg);
+        }
+
+        /* Café líquido con Arte Latte de corazón */
+        .coffee-liquid {
+            width: 68px; height: 68px;
+            background: #6f4e37;
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--latte-dark);
+        }
+        .latte-art-heart {
+            width: 22px; height: 22px;
+            background: #fdf5e6;
+            transform: rotate(-45deg);
+            position: relative;
+            top: 2px;
+            box-shadow: 0 0 4px rgba(253, 245, 230, 0.6);
+        }
+        .latte-art-heart::before, .latte-art-heart::after {
+            content: ""; position: absolute;
+            width: 22px; height: 22px;
+            background: #fdf5e6; border-radius: 50%;
+        }
+        .latte-art-heart::before { top: -11px; left: 0; }
+        .latte-art-heart::after { left: 11px; top: 0; }
+
+        /* Cuchara de Oro al lado */
+        .gold-spoon {
+            position: absolute;
+            right: -5px; top: 40px;
+            width: 8px; height: 90px;
+            background: var(--gold-accent);
+            border-radius: 4px;
+            transform: rotate(25deg);
+            opacity: 0.8;
+        }
+        .gold-spoon::before {
+            content: ""; position: absolute; top: 0; left: -3px;
+            width: 14px; height: 22px; background: var(--gold-accent);
+            border-radius: 50%;
+        }
+
+        /* Vapor Avanzado */
+        .steam-container {
+            position: absolute; top: 0;
+            display: flex; gap: 10px; z-index: 10;
+        }
+        .steam-whisper {
+            width: 2px; height: 25px;
+            background: rgba(176, 139, 117, 0.4);
+            border-radius: 50%;
             opacity: 0;
-            animation: riseSteam 2.5s infinite linear;
+            animation: delicateSteam 3s infinite ease-in-out;
         }
-        .steam:nth-child(1) { animation-delay: 0s; }
-        .steam:nth-child(2) { animation-delay: 0.8s; transform: translateX(1px); }
-        .steam:nth-child(3) { animation-delay: 1.6s; }
+        .steam-whisper:nth-child(1) { animation-delay: 0s; }
+        .steam-whisper:nth-child(2) { animation-delay: 1s; }
+        .steam-whisper:nth-child(3) { animation-delay: 2s; }
 
-        /* --- CONTENIDO DE LA POSTAL --- */
-        .postal-text-area {
-            width: 100%;
-        }
-
-        .postal-header {
-            font-family: 'Caveat', cursive;
-            font-size: 2.6rem;
-            color: var(--latte-dark);
-            margin: 0 0 20px;
-            text-align: center;
+        /* Timbre Postal Temático */
+        .postal-stamp {
+            position: absolute; top: -10px; left: -10px;
+            width: 45px; height: 52px;
+            border: 2px dashed var(--latte-light);
+            background: rgba(124, 86, 67, 0.05);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 14px; color: var(--latte-medium);
+            transform: rotate(-12deg);
         }
 
-        .postal-p {
-            font-family: 'Lora', serif;
-            font-size: 1.05rem;
-            line-height: 1.75;
-            color: var(--text-main);
-            text-align: justify;
-            margin-bottom: 22px;
-            text-indent: 15px;
-        }
-
-        .sweet-highlight {
-            color: var(--latte-medium);
-            font-weight: 500;
-            border-bottom: 1px dashed var(--rose-accent);
-        }
-
-        .postal-footer {
-            margin-top: 35px;
+        /* --- LADO DERECHO: TEXTO EMOCIONAL --- */
+        .postal-content {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            border-top: 1px solid rgba(92, 64, 51, 0.1);
-            padding-top: 20px;
+            justify-content: space-between;
+            overflow-y: auto;
+            padding-right: 5px;
         }
 
-        .signature-line {
+        /* Scroll sutil si es necesario */
+        .postal-content::-webkit-scrollbar { width: 3px; }
+        .postal-content::-webkit-scrollbar-thumb { background: var(--latte-light); border-radius: 10px; }
+
+        .postal-salutation {
             font-family: 'Caveat', cursive;
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             color: var(--latte-dark);
-            line-height: 1.2;
-            text-align: right;
-            margin-right: 10px;
+            margin: 0 0 10px 0;
         }
 
-        .signature-sub {
-            font-size: 0.8rem;
+        .postal-paragraph {
+            font-family: 'Lora', serif;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            text-align: justify;
+            margin: 0 0 12px 0;
+        }
+
+        .highlight-word {
+            color: var(--latte-dark);
+            font-weight: 500;
+            background: linear-gradient(180deg, transparent 72%, #f5e6d3 72%);
+        }
+
+        .postal-signature-block {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 15px;
+            border-top: 1px dashed rgba(74, 51, 41, 0.12);
+            padding-top: 12px;
+        }
+
+        .date-badge {
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             color: var(--latte-light);
-            margin-top: 4px;
             font-weight: 600;
         }
 
-        /* Animaciones */
-        @keyframes postalFadeIn {
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes riseSteam {
-            0% { transform: translateY(5px) scaleX(1); opacity: 0; }
-            15% { opacity: 0.5; }
-            50% { transform: translateY(-10px) scaleX(1.3); opacity: 0.3; }
-            85% { opacity: 0; }
-            100% { transform: translateY(-22px) scaleX(0.8); opacity: 0; }
+        .signature-name {
+            font-family: 'Caveat', cursive;
+            font-size: 2.1rem;
+            color: var(--latte-dark);
+            line-height: 1;
         }
 
-        /* Corazones aromáticos al interactuar */
-        .aroma-heart {
+        /* --- ANIMACIONES --- */
+        @keyframes postalReveal {
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        @keyframes delicateSteam {
+            0% { transform: translateY(10px) scaleX(1); opacity: 0; }
+            20% { opacity: 0.6; }
+            60% { transform: translateY(-20px) scaleX(1.5); opacity: 0.2; }
+            100% { transform: translateY(-35px) scaleX(0.5); opacity: 0; }
+        }
+
+        .coffee-note {
             position: fixed; pointer-events: none; z-index: 999;
-            color: var(--rose-accent); font-size: 18px;
+            color: var(--latte-medium); font-size: 14px; font-weight: bold;
+        }
+
+        /* Ajuste responsivo básico para pantallas chicas */
+        @media (max-width: 660px) {
+            .landscape-postal {
+                flex-direction: column;
+                height: auto;
+                max-width: 360px;
+            }
+            .postal-divider {
+                width: 100%; height: 2px; margin: 15px 0;
+            }
+            .postal-visual { flex: none; height: 150px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="postal-card">
-        <div class="cafe-scene" id="cafeScene" title="Un café para recordar">
-            <div class="cafe-window"></div>
-            <div class="steam-lines">
-                <div class="steam"></div>
-                <div class="steam"></div>
-                <div class="steam"></div>
+    <div class="landscape-postal">
+        <div class="postal-stamp">☕</div>
+
+        <div class="postal-visual">
+            <div class="steam-container">
+                <div class="steam-whisper"></div>
+                <div class="steam-whisper"></div>
+                <div class="steam-whisper"></div>
             </div>
-            <div class="coffee-cup" id="coffeeCup"></div>
-            <div class="cup-saucer"></div>
+            <div class="coffee-station">
+                <div class="saucer"></div>
+                <div class="saucer-inner"></div>
+                <div class="cup" id="interactiveCup" title="Sienta el aroma">
+                    <div class="coffee-liquid">
+                        <div class="latte-art-heart"></div>
+                    </div>
+                    <div class="cup-handle"></div>
+                </div>
+                <div class="gold-spoon"></div>
+            </div>
         </div>
 
-        <main class="postal-text-area">
-            <h1 class="postal-header">Hola, Mel...</h1>
+        <div class="postal-divider"></div>
+
+        <main class="postal-content">
+            <h1 class="postal-salutation">Hola, Mel...</h1>
             
-            <p class="postal-p">
-                Le escribo estas líneas pensando en lo reconfortante que es recordar los momentos bonitos. Quería tomarme un instante para darle las <span class="sweet-highlight">gracias por esa salida tan especial</span> que compartimos. Hacía tiempo que no disfrutaba de una plática tan transparente, y valoro muchísimo lo linda y atenta que fue conmigo en todo momento.
+            <p class="postal-paragraph">
+                Le dedico este espacio porque hay momentos que se quedan guardados de una forma distinta. Quería darle las gracias, de corazón, por nuestra <span class="highlight-word">primer salida</span> juntos. Desde ese día no he dejado de pensar en lo bien que se sintió compartir el tiempo con Usted; fue una tarde tan auténtica y transparente que me dejó una sensación de paz muy bonita.
             </p>
 
-            <p class="postal-p">
-                Tengo que confesarle que me quedé completamente <span class="sweet-highlight">cautivado por la dulzura de su personalidad</span>. Hay algo tan auténtico en Usted, algo que se refleja perfectamente en la calidez de sus ojos y en esa hermosa sonrisa que tiene cuando se ríe. Conversar a su lado se siente como un refugio de paz.
+            <p class="postal-paragraph">
+                Debo confesarle que me tiene completamente <span class="highlight-word">cautivado con la dulzura de su personalidad</span>. Hay una calidez tan pura en su forma de ser, pero sobre todo, me fascinan sus ojos y esa preciosa sonrisa que tiene al hablar. Tiene el don de hacer que cualquier conversación se vuelva ligera y especial.
             </p>
 
-            <p class="postal-p">
-                Desde que empezamos a hablar con más confianza, he descubierto en Usted a alguien sumamente especial. Por eso, hoy me nace decirle desde el corazón que <span class="sweet-highlight">siempre quiero estar presente</span> en su vida. Me llena de una ilusión muy genuina ver cómo va cobrando forma esa lista de planes que estamos armando juntos, con todas las ganas de cumplirlos y crear recuerdos hermosos a su lado.
+            <p class="postal-paragraph">
+                Siento algo muy lindo desde que estamos compartiendo más cosas, y hoy me nace decirle con total sinceridad que <span class="highlight-word">siempre quiero estar presente</span> en su vida. Me llena de una ilusión enorme ver cómo seguimos sumando planes a esa lista que estamos construyendo, con las ganas sinceras de vivirlos todos a su lado.
             </p>
 
-            <footer class="postal-footer">
-                <div class="signature-line">Con todo mi cariño,<br>Fer</div>
-                <div class="signature-sub">Para alguien inolvidable</div>
+            <footer class="postal-signature-block">
+                <div class="date-badge">Un café pendiente ✨</div>
+                <div class="signature-name">Con cariño, Fer</div>
             </footer>
         </main>
     </div>
 
     <script>
-        const coffeeCup = document.getElementById('coffeeCup');
+        const cup = document.getElementById('interactiveCup');
 
-        // Efecto visual interactivo al tocar la taza de café
-        function spawnAroma() {
-            for(let i=0; i<6; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'aroma-heart';
-                heart.innerHTML = '☕';
+        function puffNotes() {
+            for(let i=0; i<5; i++) {
+                const note = document.createElement('div');
+                note.className = 'coffee-note';
+                // Elige un símbolo sutil de calidez/aroma
+                note.innerHTML = Math.random() > 0.5 ? '♩' : '☕';
                 
-                // Centrado en la taza
-                const rect = coffeeCup.getBoundingClientRect();
-                heart.style.left = (rect.left + rect.width / 2) + 'px';
-                heart.style.top = rect.top + 'px';
+                const rect = cup.getBoundingClientRect();
+                note.style.left = (rect.left + rect.width / 2) + (Math.random() * 20 - 10) + 'px';
+                note.style.top = rect.top + 'px';
                 
-                document.body.appendChild(heart);
+                document.body.appendChild(note);
                 
                 const angle = (Math.random() * Math.PI) + Math.PI; // Solo hacia arriba
-                const dist = 40 + Math.random() * 60;
+                const dist = 30 + Math.random() * 50;
                 
-                heart.animate([
-                    { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 1 },
-                    { transform: `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px)) scale(1.2)`, opacity: 0 }
-                ], { duration: 1500, easing: 'ease-out' });
+                note.animate([
+                    { transform: 'translate(-50%, -50%) scale(0.6)', opacity: 1 },
+                    { transform: `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px)) scale(1.1)`, opacity: 0 }
+                ], { duration: 1600, easing: 'ease-out' });
                 
-                setTimeout(() => heart.remove(), 1500);
+                setTimeout(() => note.remove(), 1600);
             }
         }
 
-        coffeeCup.addEventListener('click', spawnAroma);
-        // También funciona al pasar el cursor para computadoras
-        coffeeCup.addEventListener('mouseenter', spawnAroma);
+        cup.addEventListener('click', puffNotes);
+        cup.addEventListener('mouseenter', puffNotes);
     </script>
 </body>
 </html>
