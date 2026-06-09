@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Mel ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Lora:ital,wght@0,400;1,400&family=Caveat:wght@700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
     <style>
         :root {
             --snoopy-red: #e74c3c;
@@ -26,311 +25,240 @@
             justify-content: center;
             align-items: center;
             background-color: var(--rose-bg);
-            /* Patrón de fondo estilo cómic clásico */
-            background-image: radial-gradient(rgba(0,0,0,0.04) 15%, transparent 15%);
+            background-image: radial-gradient(rgba(0,0,0,0.03) 15%, transparent 15%);
             background-size: 20px 20px;
             overflow-x: hidden;
         }
 
-        /* Contenedor Principal Estilo Tira Cómica */
-        .comic-container {
+        /* Contenedor Tira Cómica Activa */
+        .comic-panel {
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             background: var(--bg-cream);
             border: 4px solid var(--text-dark);
             border-radius: 28px;
-            box-shadow: 8px 8px 0px var(--text-dark);
-            padding: 30px 24px;
+            box-shadow: 10px 10px 0px var(--text-dark);
+            padding: 35px 26px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: panelAppear 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        /* Encabezado Dedicatoria */
+        /* Encabezado */
         .comic-header {
             width: 100%;
             display: flex;
             justify-content: space-between;
-            border-bottom: 3px dashed var(--text-dark);
-            padding-bottom: 12px;
-            margin-bottom: 25px;
+            border-bottom: 4px solid var(--text-dark);
+            padding-bottom: 14px;
+            margin-bottom: 30px;
             font-family: 'Caveat', cursive;
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             color: var(--text-dark);
         }
-
         .tag-to { color: var(--snoopy-red); }
-        .tag-from { color: var(--snoopy-yellow); background: var(--text-dark); padding: 2px 12px; border-radius: 12px; }
+        .tag-from { background: var(--text-dark); color: white; padding: 2px 14px; border-radius: 12px; }
 
-        /* --- DIBUJO DE SNOOPY EN CSS --- */
-        .snoopy-art {
+        /* --- ANIMACIÓN AVANZADA DE SNOOPY (CSS PURO) --- */
+        .snoopy-container {
             position: relative;
-            width: 150px;
-            height: 140px;
-            margin-bottom: 20px;
+            width: 220px;
+            height: 160px;
+            margin-bottom: 25px;
+            cursor: pointer;
         }
 
-        /* Cuerpo principal / Cabeza */
+        /* Casita Roja */
+        .doghouse {
+            position: absolute;
+            bottom: 0; left: 45px;
+            width: 130px; height: 75px;
+            background: var(--snoopy-red);
+            border: 4px solid var(--text-dark);
+            border-top: 6px solid var(--text-dark);
+        }
+        .doghouse-roof {
+            position: absolute;
+            bottom: 71px; left: 35px;
+            width: 150px; height: 12px;
+            background: var(--text-dark);
+            border-radius: 4px;
+            transform: rotate(0deg);
+        }
+
+        /* Snoopy Acostado */
+        .snoopy-body {
+            position: absolute;
+            bottom: 79px; left: 60px;
+            width: 90px; height: 26px;
+            background: white;
+            border: 4px solid var(--text-dark);
+            border-bottom: none;
+            border-radius: 15px 15px 0 0;
+            transition: transform 0.3s ease;
+        }
         .snoopy-head {
             position: absolute;
-            top: 20px; left: 35px;
-            width: 75px; height: 50px;
+            bottom: 92px; left: 110px;
+            width: 46px; height: 32px;
             background: white;
             border: 4px solid var(--text-dark);
-            border-radius: 40px 50px 35px 35px;
-            z-index: 3;
+            border-radius: 20px 22px 15px 15px;
+            transition: transform 0.4s ease;
         }
-
-        /* Hocico */
-        .snoopy-snout {
+        .snoopy-nose {
             position: absolute;
-            top: 26px; left: 102px;
-            width: 14px; height: 14px;
+            top: 8px; right: -8px;
+            width: 10px; height: 10px;
             background: var(--text-dark);
             border-radius: 50%;
-            z-index: 4;
         }
-
-        /* Oreja caída */
         .snoopy-ear {
             position: absolute;
-            top: 25px; left: 15px;
-            width: 24px; height: 42px;
+            top: 6px; left: 4px;
+            width: 14px; height: 22px;
             background: var(--text-dark);
-            border-radius: 50% 50% 50% 50%;
-            transform: rotate(10deg);
-            z-index: 4;
-        }
-
-        /* Ojo cerrado feliz */
-        .snoopy-eye {
-            position: absolute;
-            top: 36px; left: 70px;
-            width: 10px; height: 6px;
-            border-top: 3px solid var(--text-dark);
             border-radius: 50%;
-            z-index: 5;
+            transform: rotate(5deg);
         }
-
-        /* Gran corazón rojo que abraza Snoopy */
-        .snoopy-heart {
+        .snoopy-paws {
             position: absolute;
-            bottom: 5px; left: 42px;
-            width: 65px; height: 65px;
-            background: var(--snoopy-red);
-            transform: rotate(-45deg);
-            border: 4px solid var(--text-dark);
-            z-index: 2;
-            animation: heartbeat 1.5s infinite ease-in-out;
-        }
-        .snoopy-heart::before, .snoopy-heart::after {
-            content: "";
-            position: absolute;
-            width: 65px; height: 65px;
-            background: var(--snoopy-red);
-            border-radius: 50%;
-        }
-        .snoopy-heart::before { top: -32px; left: 0; }
-        .snoopy-heart::after { left: 32px; top: 0; }
-
-        /* Brazos de Snoopy abrazando el corazón */
-        .snoopy-arm {
-            position: absolute;
-            bottom: 35px; left: 85px;
-            width: 25px; height: 14px;
+            bottom: 79px; left: 75px;
+            width: 12px; height: 12px;
             background: white;
-            border: 3px solid var(--text-dark);
-            border-radius: 10px;
-            transform: rotate(15deg);
-            z-index: 6;
+            border: 4px solid var(--text-dark);
+            border-radius: 50%;
         }
 
-        /* --- CONTENIDO --- */
-        .content-box {
+        /* Efecto de Reacción / Animación al pasar el mouse o tocar */
+        .snoopy-container:hover .snoopy-head {
+            transform: translateY(-6px) rotate(-8px);
+        }
+        .snoopy-container:hover .love-heart {
+            opacity: 1;
+            transform: scale(1.2) translateY(-25px) rotate(-45deg);
+        }
+
+        /* Corazón que emerge de Snoopy */
+        .love-heart {
+            position: absolute;
+            top: 5px; left: 100px;
+            width: 25px; height: 25px;
+            background: var(--snoopy-red);
+            transform: rotate(-45deg) scale(0);
+            border: 2px solid var(--text-dark);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .love-heart::before, .love-heart::after {
+            content: ""; position: absolute;
+            width: 25px; height: 25px;
+            background: var(--snoopy-red); border-radius: 50%;
+        }
+        .love-heart::before { top: -13px; left: 0; }
+        .love-heart::after { left: 13px; top: 0; }
+
+
+        /* --- TEXTO DEDICADO --- */
+        .text-stream {
             width: 100%;
             text-align: center;
         }
 
-        .main-title {
+        .salutation {
             font-family: 'Caveat', cursive;
-            font-size: 2.4rem;
+            font-size: 2.5rem;
             color: var(--text-dark);
-            margin: 0 0 15px;
+            margin: 0 0 20px;
+            opacity: 0;
+            animation: fadeInText 0.8s ease forwards 0.4s;
         }
 
-        .body-text {
+        .paragraph {
             font-family: 'Lora', serif;
-            font-size: 1rem;
-            line-height: 1.6;
+            font-size: 1.05rem;
+            line-height: 1.7;
             color: var(--text-dark);
             text-align: justify;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInText 0.8s ease forwards;
         }
 
-        .highlight {
-            border-bottom: 3px solid var(--snoopy-yellow);
+        /* Delays para cascada de lectura fluida */
+        .p-1 { animation-delay: 0.8s; }
+        .p-2 { animation-delay: 1.6s; }
+        .p-3 { animation-delay: 2.4s; }
+
+        .marked {
+            background: linear-gradient(180deg, transparent 65%, var(--snoopy-yellow) 65%);
             font-weight: 600;
         }
 
-        .question {
-            font-weight: 700;
-            color: var(--snoopy-red);
-            margin: 25px 0 15px;
-            font-size: 1.05rem;
-            letter-spacing: 0.5px;
-        }
-
-        /* Botones Estilo Historieta */
-        .button-row {
-            display: flex;
-            gap: 14px;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .btn-comic {
-            border: 3px solid var(--text-dark);
-            padding: 12px 28px;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            font-family: 'Comfortaa', cursive;
-            transition: transform 0.1s, box-shadow 0.1s;
-        }
-        
-        .btn-yes {
-            background: var(--snoopy-yellow);
+        .signature-area {
+            font-family: 'Caveat', cursive;
+            font-size: 2.2rem;
             color: var(--text-dark);
-            box-shadow: 4px 4px 0px var(--text-dark);
-        }
-        .btn-yes:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--text-dark); }
-        .btn-yes:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--text-dark); }
-
-        .btn-no {
-            background: white;
-            color: #7f8c8d;
-            box-shadow: 4px 4px 0px var(--text-dark);
-        }
-
-        .status-box {
-            display: none;
             text-align: center;
-            font-weight: 700;
-            color: var(--snoopy-red);
-            font-size: 1.1rem;
-            margin-top: 15px;
-            animation: popIn 0.3s forwards;
+            margin-top: 35px;
+            line-height: 1.3;
+            opacity: 0;
+            animation: fadeInText 1s ease forwards 3.2s;
         }
 
-        /* Animaciones */
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1) rotate(-45deg); }
-            50% { transform: scale(1.08) rotate(-45deg); }
+        /* Animaciones clave */
+        @keyframes panelAppear {
+            to { transform: translateY(0); opacity: 1; }
         }
-        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        .floating-heart {
-            position: fixed; pointer-events: none; z-index: 999;
-            font-size: 20px;
+        @keyframes fadeInText {
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <div class="comic-container">
+    <div class="comic-panel">
         <header class="comic-header">
             <span class="tag-to">Para: Mel ❤️</span>
             <span class="tag-from">De: Fer</span>
         </header>
 
-        <div class="snoopy-art" aria-hidden="true">
-            <div class="snoopy-ear"></div>
+        <div class="snoopy-container" title="Toca a Snoopy">
+            <div class="love-heart"></div>
+            <div class="doghouse"></div>
+            <div class="doghouse-roof"></div>
+            <div class="snoopy-body"></div>
+            <div class="snoopy-paws"></div>
             <div class="snoopy-head">
-                <div class="snoopy-eye"></div>
+                <div class="snoopy-ear"></div>
+                <div class="snoopy-nose"></div>
             </div>
-            <div class="snoopy-snout"></div>
-            <div class="snoopy-heart"></div>
-            <div class="snoopy-arm"></div>
         </div>
 
-        <main class="content-box">
-            <h1 class="main-title">Hola, Mel...</h1>
+        <main class="text-stream">
+            <h1 class="salutation">Hola, Mel...</h1>
             
-            <p class="body-text">
-                No quería dejar pasar el día sin enviarle este pequeño espacio. Primero que nada, quiero darle las <span class="highlight">gracias por la salida tan especial</span> que compartimos. Fue un momento hermoso y valoro muchísimo lo linda, atenta y detallista que fue conmigo.
+            <p class="paragraph p-1">
+                Le preparé este pequeño espacio porque no quería dejar pasar el momento sin expresarle algo importante. Primero que nada, quiero darle las <span class="marked">gracias por la salida tan especial</span> que compartimos juntos. Fue un día increíble y valoro infinitamente lo linda, atenta y maravillosa que fue conmigo.
             </p>
 
-            <p class="body-text">
-                Debo confesarle que quedé completamente <span class="highlight">cautivado por la dulzura de su personalidad</span>, pero sobre todo, por la magia que tienen sus ojos y esa hermosa sonrisa que dibuja al reírse. 
+            <p class="paragraph p-2">
+                Debo confesarle que me tiene completamente <span class="marked">cautivado con la dulzura de su personalidad</span>. Pero, por encima de todo, hay dos cosas de Usted de las que no puedo olvidarme: me fascinan por completo sus ojos y esa preciosa sonrisa que comparte al conversar. 
             </p>
 
-            <p class="body-text">
-                Aunque las fechas de su cumpleaños se nos pasaron un poco al inicio, me alegra tanto saber que valió por completo la pena haberle enviado aquel primer mensaje. Ahora que estamos aquí, lo único que deseo es <span class="highlight">seguir compartiendo a su lado</span> y cumplir cada uno de los planes que vamos armando juntos.
+            <p class="paragraph p-3">
+                Mirando hacia atrás, me alegra tanto saber que valió absolutamente la pena haber tomado el riesgo de enviarle aquel primer mensaje. Ha traído cosas hermosas y ahora mismo lo único que deseo es <span class="marked">seguir estando presente</span>, acompañarla y ver cómo cumplimos cada uno de esos planes que vamos armando juntos.
             </p>
 
-            <p class="question">¿Me daría Usted la oportunidad de volver a salir?</p>
-
-            <div class="button-row" id="interactionGroup">
-                <button class="btn btn-comic btn-yes" id="yesAction">¡Sí, vamos! 🐾</button>
-                <button class="btn btn-comic btn-no" id="noAction">Quizá luego</button>
+            <div class="signature-area">
+                Con muchísimo cariño,<br>Fer 🐾
             </div>
-
-            <div class="status-box" id="statusBox"></div>
         </main>
     </div>
 
-    <script>
-        emailjs.init('B1-PAr0OwHo-wb6FS');
-
-        const interactionGroup = document.getElementById('interactionGroup');
-        const statusBox = document.getElementById('statusBox');
-
-        function floatHearts() {
-            for(let i=0; i<12; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.innerHTML = '❤️';
-                heart.style.left = '50%'; heart.style.top = '40%';
-                document.body.appendChild(heart);
-                const angle = Math.random() * Math.PI * 2;
-                const dist = 80 + Math.random() * 140;
-                heart.animate([
-                    { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
-                    { transform: `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px)) scale(1.1)`, opacity: 0 }
-                ], { duration: 1200, easing: 'ease-out' });
-                setTimeout(() => heart.remove(), 1200);
-            }
-        }
-
-        function triggerResponse(isAccepted) {
-            interactionGroup.style.display = 'none';
-            statusBox.style.display = 'block';
-            statusBox.innerHTML = "Anotando plan...";
-
-            const templateParams = {
-                to_email: 'appsinstalador1234@gmail.com',
-                message: isAccepted ? "✅ Mel dijo SÍ a Fer (Snoopy Comic Interface)" : "❌ Mel dijo que después",
-                respuesta: isAccepted ? "¡Mel aceptó la siguiente cita con Fer! 💕" : "Pidió reprogramar"
-            };
-
-            emailjs.send('service_2m33mni', 'template_2nh2ba8', templateParams)
-                .then(() => {
-                    if(isAccepted) {
-                        statusBox.innerHTML = "¡Me hace sumamente feliz! Nos vemos muy pronto. 🐾✨";
-                        floatHearts();
-                    } else {
-                        statusBox.innerHTML = "Entiendo perfectamente, Mel. Muchas gracias por su sinceridad. 🌸";
-                    }
-                })
-                .catch(() => {
-                    statusBox.innerHTML = "¡Guardado! (Hubo un micro-error de red, pero la respuesta es hermosa) 😊";
-                });
-        }
-
-        document.getElementById('yesAction').addEventListener('click', () => triggerResponse(true));
-        document.getElementById('noAction').addEventListener('click', () => triggerResponse(false));
-    </script>
 </body>
 </html>
