@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Un detalle para Usted</title>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Lora:ital,wght@0,400;1,400&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <title>Para Mel ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Lora:ital,wght@0,400;1,400&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
     <style>
         :root {
@@ -12,340 +12,325 @@
             --snoopy-yellow: #f1c40f;
             --bg-cream: #fffdf9;
             --text-dark: #2c3e50;
-            --rose-pastel: #fbc2c4;
+            --rose-bg: #ffebee;
         }
 
         * { box-sizing: border-box; }
 
         body {
-            margin: 0; padding: 0;
+            margin: 0; padding: 20px;
             font-family: 'Comfortaa', cursive;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            /* Fondo inspirado en Peanuts: textura suave y tonos cálidos */
-            background-color: #fce4ec;
-            background-image: radial-gradient(var(--rose-pastel) 20%, transparent 20%),
-                              radial-gradient(var(--rose-pastel) 20%, transparent 20%);
-            background-size: 30px 30px;
-            background-position: 0 0, 15px 15px;
+            background-color: var(--rose-bg);
+            /* Patrón de fondo estilo cómic clásico */
+            background-image: radial-gradient(rgba(0,0,0,0.04) 15%, transparent 15%);
+            background-size: 20px 20px;
+            overflow-x: hidden;
         }
 
-        /* Contenedor de la Tarjeta 3D */
-        .card-container {
-            position: relative;
-            width: 90%;
-            max-width: 380px;
-            height: 540px;
-            perspective: 1500px;
-            z-index: 10;
-        }
-
-        /* La Tarjeta que gira */
-        .snoopy-card {
+        /* Contenedor Principal Estilo Tira Cómica */
+        .comic-container {
             width: 100%;
-            height: 100%;
-            position: absolute;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 24px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-
-        /* Estado Abierto */
-        .card-container.open .snoopy-card {
-            transform: rotateY(180deg);
-        }
-
-        /* Caras de la Tarjeta */
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 24px;
+            max-width: 420px;
             background: var(--bg-cream);
             border: 4px solid var(--text-dark);
+            border-radius: 28px;
+            box-shadow: 8px 8px 0px var(--text-dark);
+            padding: 30px 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 20px;
-        }
-
-        /* PORTADA */
-        .card-front {
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        /* Patrón icónico de Charlie Brown en los bordes de la portada */
-        .card-front::before {
-            content: "";
-            position: absolute;
-            bottom: 0; left: 0; right: 0; height: 20px;
-            background: repeat-x bottom left url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><polygon points="0,20 5,10 10,20 15,10 20,20" fill="%23f1c40f"/></svg>');
-            border-bottom-left-radius: 18px;
-            border-bottom-right-radius: 18px;
-        }
-
-        /* Ilustración CSS Minimalista de la casita de Snoopy */
-        .snoopy-illustration {
             position: relative;
-            width: 160px;
-            height: 180px;
+        }
+
+        /* Encabezado Dedicatoria */
+        .comic-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 3px dashed var(--text-dark);
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+        }
+
+        .tag-to { color: var(--snoopy-red); }
+        .tag-from { color: var(--snoopy-yellow); background: var(--text-dark); padding: 2px 12px; border-radius: 12px; }
+
+        /* --- DIBUJO DE SNOOPY EN CSS --- */
+        .snoopy-art {
+            position: relative;
+            width: 150px;
+            height: 140px;
             margin-bottom: 20px;
         }
 
-        .doghouse-roof {
+        /* Cuerpo principal / Cabeza */
+        .snoopy-head {
             position: absolute;
-            bottom: 0; left: 20px;
-            width: 120px; height: 100px;
-            background: var(--snoopy-red);
-            border: 4px solid var(--text-dark);
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        /* Snoopy durmiendo arriba */
-        .snoopy-sleeping {
-            position: absolute;
-            top: 45px; left: 35px;
-            width: 90px; height: 35px;
+            top: 20px; left: 35px;
+            width: 75px; height: 50px;
             background: white;
             border: 4px solid var(--text-dark);
-            border-radius: 20px 20px 10px 10px;
+            border-radius: 40px 50px 35px 35px;
+            z-index: 3;
         }
-        /* Oreja de Snoopy */
-        .snoopy-sleeping::after {
-            content: "";
+
+        /* Hocico */
+        .snoopy-snout {
             position: absolute;
-            top: 8px; left: 15px;
-            width: 18px; height: 22px;
+            top: 26px; left: 102px;
+            width: 14px; height: 14px;
             background: var(--text-dark);
             border-radius: 50%;
+            z-index: 4;
         }
 
-        .front-title {
-            font-family: 'Caveat', cursive;
-            font-size: 2.2rem;
-            color: var(--text-dark);
-            text-align: center;
-            margin: 10px 0 5px;
-        }
-
-        .front-subtitle {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            animation: pulse 2s infinite;
-        }
-
-        /* REVERSO (LA CARTA INTERIOR) */
-        .card-back {
-            transform: rotateY(180deg);
-            overflow-y: auto;
-            justify-content: flex-start;
-        }
-
-        /* Botón de cierre */
-        .close-card-btn {
+        /* Oreja caída */
+        .snoopy-ear {
             position: absolute;
-            top: 15px; right: 20px;
-            width: 32px; height: 32px;
-            background: #f0f3f4;
-            color: var(--text-dark);
-            border: 3px solid var(--text-dark);
+            top: 25px; left: 15px;
+            width: 24px; height: 42px;
+            background: var(--text-dark);
+            border-radius: 50% 50% 50% 50%;
+            transform: rotate(10deg);
+            z-index: 4;
+        }
+
+        /* Ojo cerrado feliz */
+        .snoopy-eye {
+            position: absolute;
+            top: 36px; left: 70px;
+            width: 10px; height: 6px;
+            border-top: 3px solid var(--text-dark);
             border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-weight: bold; font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.2s;
-            z-index: 15;
+            z-index: 5;
         }
-        .close-card-btn:hover { background: var(--snoopy-yellow); }
 
-        .letter-title {
+        /* Gran corazón rojo que abraza Snoopy */
+        .snoopy-heart {
+            position: absolute;
+            bottom: 5px; left: 42px;
+            width: 65px; height: 65px;
+            background: var(--snoopy-red);
+            transform: rotate(-45deg);
+            border: 4px solid var(--text-dark);
+            z-index: 2;
+            animation: heartbeat 1.5s infinite ease-in-out;
+        }
+        .snoopy-heart::before, .snoopy-heart::after {
+            content: "";
+            position: absolute;
+            width: 65px; height: 65px;
+            background: var(--snoopy-red);
+            border-radius: 50%;
+        }
+        .snoopy-heart::before { top: -32px; left: 0; }
+        .snoopy-heart::after { left: 32px; top: 0; }
+
+        /* Brazos de Snoopy abrazando el corazón */
+        .snoopy-arm {
+            position: absolute;
+            bottom: 35px; left: 85px;
+            width: 25px; height: 14px;
+            background: white;
+            border: 3px solid var(--text-dark);
+            border-radius: 10px;
+            transform: rotate(15deg);
+            z-index: 6;
+        }
+
+        /* --- CONTENIDO --- */
+        .content-box {
+            width: 100%;
+            text-align: center;
+        }
+
+        .main-title {
             font-family: 'Caveat', cursive;
-            font-size: 2.5rem;
-            color: var(--snoopy-red);
-            margin-top: 10px;
-            margin-bottom: 15px;
+            font-size: 2.4rem;
+            color: var(--text-dark);
+            margin: 0 0 15px;
         }
 
-        .letter-text {
+        .body-text {
             font-family: 'Lora', serif;
-            font-size: 0.95rem;
+            font-size: 1rem;
             line-height: 1.6;
             color: var(--text-dark);
             text-align: justify;
-            margin-bottom: 12px;
-            padding: 0 5px;
+            margin-bottom: 18px;
         }
 
         .highlight {
-            color: var(--snoopy-red);
+            border-bottom: 3px solid var(--snoopy-yellow);
             font-weight: 600;
         }
 
         .question {
-            text-align: center;
             font-weight: 700;
-            color: var(--text-dark);
-            margin: 15px 0 10px;
-            font-size: 0.95rem;
+            color: var(--snoopy-red);
+            margin: 25px 0 15px;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
         }
 
-        /* Botones Peanuts Style */
-        .buttons-group { display: flex; gap: 12px; justify-content: center; width: 100%; margin-bottom: 10px; }
-        .btn {
+        /* Botones Estilo Historieta */
+        .button-row {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn-comic {
             border: 3px solid var(--text-dark);
-            padding: 10px 20px;
-            border-radius: 12px;
+            padding: 12px 28px;
+            border-radius: 16px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.1s;
+            font-family: 'Comfortaa', cursive;
+            transition: transform 0.1s, box-shadow 0.1s;
         }
-        .btn:active { transform: scale(0.95); }
         
-        .btn-yes { background: var(--snoopy-yellow); color: var(--text-dark); box-shadow: 4px 4px 0px var(--text-dark); }
-        .btn-no { background: #fff; color: #7f8c8d; box-shadow: 4px 4px 0px var(--text-dark); }
-
-        .status-message { text-align: center; font-weight: 600; display: none; color: var(--snoopy-red); font-size: 0.95rem; margin-top: 10px; }
-
-        .signature {
-            font-family: 'Caveat', cursive;
-            font-size: 2rem;
+        .btn-yes {
+            background: var(--snoopy-yellow);
             color: var(--text-dark);
+            box-shadow: 4px 4px 0px var(--text-dark);
+        }
+        .btn-yes:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--text-dark); }
+        .btn-yes:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--text-dark); }
+
+        .btn-no {
+            background: white;
+            color: #7f8c8d;
+            box-shadow: 4px 4px 0px var(--text-dark);
+        }
+
+        .status-box {
+            display: none;
             text-align: center;
+            font-weight: 700;
+            color: var(--snoopy-red);
+            font-size: 1.1rem;
             margin-top: 15px;
-            line-height: 1.2;
+            animation: popIn 0.3s forwards;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        /* Animaciones */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1) rotate(-45deg); }
+            50% { transform: scale(1.08) rotate(-45deg); }
         }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* Corazones flotantes estilo cómic */
-        .woodstock-heart {
+        .floating-heart {
             position: fixed; pointer-events: none; z-index: 999;
-            font-size: 24px;
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="card-container" id="cardContainer">
-        <div class="snoopy-card">
+    <div class="comic-container">
+        <header class="comic-header">
+            <span class="tag-to">Para: Mel ❤️</span>
+            <span class="tag-from">De: Fer</span>
+        </header>
+
+        <div class="snoopy-art" aria-hidden="true">
+            <div class="snoopy-ear"></div>
+            <div class="snoopy-head">
+                <div class="snoopy-eye"></div>
+            </div>
+            <div class="snoopy-snout"></div>
+            <div class="snoopy-heart"></div>
+            <div class="snoopy-arm"></div>
+        </div>
+
+        <main class="content-box">
+            <h1 class="main-title">Hola, Mel...</h1>
             
-            <div class="card-front" id="openCard">
-                <div class="snoopy-illustration">
-                    <div class="snoopy-sleeping"></div>
-                    <div class="doghouse-roof"></div>
-                </div>
-                <h1 class="front-title">Un pequeño detalle para Usted...</h1>
-                <p class="front-subtitle">Toque aquí para abrir ✨</p>
+            <p class="body-text">
+                No quería dejar pasar el día sin enviarle este pequeño espacio. Primero que nada, quiero darle las <span class="highlight">gracias por la salida tan especial</span> que compartimos. Fue un momento hermoso y valoro muchísimo lo linda, atenta y detallista que fue conmigo.
+            </p>
+
+            <p class="body-text">
+                Debo confesarle que quedé completamente <span class="highlight">cautivado por la dulzura de su personalidad</span>, pero sobre todo, por la magia que tienen sus ojos y esa hermosa sonrisa que dibuja al reírse. 
+            </p>
+
+            <p class="body-text">
+                Aunque las fechas de su cumpleaños se nos pasaron un poco al inicio, me alegra tanto saber que valió por completo la pena haberle enviado aquel primer mensaje. Ahora que estamos aquí, lo único que deseo es <span class="highlight">seguir compartiendo a su lado</span> y cumplir cada uno de los planes que vamos armando juntos.
+            </p>
+
+            <p class="question">¿Me daría Usted la oportunidad de volver a salir?</p>
+
+            <div class="button-row" id="interactionGroup">
+                <button class="btn btn-comic btn-yes" id="yesAction">¡Sí, vamos! 🐾</button>
+                <button class="btn btn-comic btn-no" id="noAction">Quizá luego</button>
             </div>
 
-            <main class="card-back">
-                <div class="close-card-btn" id="closeCard">✕</div>
-                <h1 class="letter-title">Hola...</h1>
-                
-                <p class="letter-text">
-                    No quería dejar pasar el día sin escribirle esto. Primero que nada, quiero darle las <span class="highlight">gracias por la salida tan especial</span> que compartimos. Ha sido un momento hermoso y le agradezco infinitamente lo linda, atenta y dulce que fue conmigo.
-                </p>
-
-                <p class="letter-text">
-                    Debo confesarle que me fascinó verla; <span class="highlight">me tienen completamente cautivado sus ojos y la hermosa sonrisa</span> que dibuja cuando se ríe. Tiene una personalidad y una dulzura tan mágicas que, sin darse cuenta, logran que hablar con Usted se vuelva mi parte favorita del día.
-                </p>
-
-                <p class="letter-text">
-                    Sé que nuestro inicio tuvo tiempos un poco curiosos y no logré felicitarla en su cumpleaños, pero ver cómo se están dando las cosas me hace pensar que valió la pena arriesgarse con ese primer mensaje. Ahora mismo, lo único que deseo es que me permita <span class="highlight">seguir conociéndola y cumplir cada uno de los planes</span> que hemos ido imaginando juntos.
-                </p>
-
-                <p class="question">¿Me daría la oportunidad de una nueva cita?</p>
-
-                <div class="buttons-group" id="btnGroup">
-                    <button class="btn btn-yes" id="yesBtn">¡Sí, claro! 🐾</button>
-                    <button class="btn btn-no" id="noBtn">Quizá luego</button>
-                </div>
-
-                <div class="status-message" id="statusMsg"></div>
-
-                <div class="signature">Con muchísimo cariño,<br>El Inge 🐾</div>
-            </main>
-
-        </div>
+            <div class="status-box" id="statusBox"></div>
+        </main>
     </div>
 
     <script>
         emailjs.init('B1-PAr0OwHo-wb6FS');
 
-        const cardContainer = document.getElementById('cardContainer');
-        const openCard = document.getElementById('openCard');
-        const closeCard = document.getElementById('closeCard');
-        const btnGroup = document.getElementById('btnGroup');
-        const statusMsg = document.getElementById('statusMsg');
+        const interactionGroup = document.getElementById('interactionGroup');
+        const statusBox = document.getElementById('statusBox');
 
-        // Mecánica de Giro: Abrir
-        openCard.addEventListener('click', () => {
-            cardContainer.classList.add('open');
-        });
-
-        // Mecánica de Giro: Cerrar
-        closeCard.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evita reabrir al hacer click en el botón de cerrar
-            cardContainer.classList.remove('open');
-        });
-
-        // Corazones animados
-        function popComicHearts() {
-            for(let i=0; i<15; i++) {
-                const h = document.createElement('div');
-                h.className = 'woodstock-heart';
-                h.innerHTML = Math.random() > 0.5 ? '❤️' : '❤️';
-                h.style.left = '50%'; h.style.top = '50%';
-                document.body.appendChild(h);
+        function floatHearts() {
+            for(let i=0; i<12; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = '50%'; heart.style.top = '40%';
+                document.body.appendChild(heart);
                 const angle = Math.random() * Math.PI * 2;
-                const dist = 100 + Math.random() * 150;
-                h.animate([
+                const dist = 80 + Math.random() * 140;
+                heart.animate([
                     { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
-                    { transform: `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px)) scale(1.2)`, opacity: 0 }
-                ], { duration: 1400, easing: 'ease-out' });
-                setTimeout(() => h.remove(), 1400);
+                    { transform: `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px)) scale(1.1)`, opacity: 0 }
+                ], { duration: 1200, easing: 'ease-out' });
+                setTimeout(() => heart.remove(), 1200);
             }
         }
 
-        // EmailJS integración
-        function sendResponse(accepted) {
-            btnGroup.style.display = 'none';
-            statusMsg.style.display = 'block';
-            statusMsg.innerHTML = "Enviando respuesta...";
+        function triggerResponse(isAccepted) {
+            interactionGroup.style.display = 'none';
+            statusBox.style.display = 'block';
+            statusBox.innerHTML = "Anotando plan...";
 
             const templateParams = {
                 to_email: 'appsinstalador1234@gmail.com',
-                message: accepted ? "✅ Aceptó la nueva cita (Snoopy Card)" : "❌ Dijo que después",
-                respuesta: accepted ? "Aceptó con gusto otra salida 💕" : "Pidió tiempo"
+                message: isAccepted ? "✅ Mel dijo SÍ a Fer (Snoopy Comic Interface)" : "❌ Mel dijo que después",
+                respuesta: isAccepted ? "¡Mel aceptó la siguiente cita con Fer! 💕" : "Pidió reprogramar"
             };
 
             emailjs.send('service_2m33mni', 'template_2nh2ba8', templateParams)
                 .then(() => {
-                    if(accepted) {
-                        statusMsg.innerHTML = "¡Me hace inmensamente feliz! Nos vemos pronto. 🐾✨";
-                        popComicHearts();
+                    if(isAccepted) {
+                        statusBox.innerHTML = "¡Me hace sumamente feliz! Nos vemos muy pronto. 🐾✨";
+                        floatHearts();
                     } else {
-                        statusMsg.innerHTML = "Entiendo perfectamente, muchas gracias por su sinceridad. 🌸";
+                        statusBox.innerHTML = "Entiendo perfectamente, Mel. Muchas gracias por su sinceridad. 🌸";
                     }
                 })
                 .catch(() => {
-                    statusMsg.innerHTML = "Hubo un error de red, ¡pero sé que la respuesta fue bonita! 😊";
+                    statusBox.innerHTML = "¡Guardado! (Hubo un micro-error de red, pero la respuesta es hermosa) 😊";
                 });
         }
 
-        document.getElementById('yesBtn').addEventListener('click', () => sendResponse(true));
-        document.getElementById('noBtn').addEventListener('click', () => sendResponse(false));
+        document.getElementById('yesAction').addEventListener('click', () => triggerResponse(true));
+        document.getElementById('noAction').addEventListener('click', () => triggerResponse(false));
     </script>
 </body>
 </html>
