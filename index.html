@@ -24,14 +24,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Fondo con patrón alegre y tierno */
             background: radial-gradient(circle at 30% 30%, rgba(254, 209, 22, 0.2) 0%, transparent 60%),
                         radial-gradient(circle at 80% 20%, rgba(226, 35, 26, 0.15) 0%, transparent 50%),
                         linear-gradient(135deg, #f0eae1 0%, #dcd1c4 100%);
             overflow-x: hidden;
         }
 
-        /* Contenedor de la postal estilo cómic premium */
         .premium-postal {
             width: 100%;
             max-width: 820px;
@@ -48,7 +46,6 @@
             z-index: 10;
         }
 
-        /* Divisor central con la silueta de la casita de Snoopy */
         .center-divider {
             width: 4px;
             background: var(--snoopy-black);
@@ -66,7 +63,7 @@
             padding: 5px 0;
         }
 
-        /* --- LADO IZQUIERDO: IMAGEN Y DETALLES --- */
+        /* --- LADO IZQUIERDO --- */
         .visual-corner {
             flex: 0 0 280px;
             display: flex;
@@ -76,7 +73,6 @@
             position: relative;
         }
 
-        /* Marco de la foto tipo tira de cómic */
         .comic-frame {
             width: 100%;
             background: var(--snoopy-white);
@@ -99,7 +95,6 @@
             display: block;
         }
 
-        /* Decoración de Woodstock flotando abajo */
         .woodstock-badge {
             margin-top: 20px;
             background: var(--snoopy-yellow);
@@ -111,7 +106,6 @@
             box-shadow: 3px 3px 0px var(--snoopy-black);
         }
 
-        /* Sello postal de San Valentín / Snoopy */
         .stamp-vintage {
             position: absolute;
             top: -15px; left: -15px;
@@ -128,7 +122,7 @@
             z-index: 15;
         }
 
-        /* --- LADO DERECHO: EL TEXTO SINCERO --- */
+        /* --- LADO DERECHO --- */
         .text-corner {
             flex: 1;
             display: flex;
@@ -153,7 +147,6 @@
             margin: 0 0 15px 0;
         }
 
-        /* Resaltados al estilo Snoopy */
         .highlight-love {
             font-weight: 700;
             color: var(--snoopy-black);
@@ -168,7 +161,6 @@
             padding: 0 4px;
         }
 
-        /* Bloque de firma */
         .postal-signature {
             display: flex;
             justify-content: space-between;
@@ -195,13 +187,11 @@
             line-height: 1;
         }
 
-        /* Animación para los elementos interactivos flotantes */
         .aroma-particle {
             position: fixed; pointer-events: none; z-index: 999;
             font-size: 20px; opacity: 0;
         }
 
-        /* Diseño responsivo para celulares */
         @media (max-width: 760px) {
             .premium-postal {
                 flex-direction: column;
@@ -221,8 +211,8 @@
         <div class="stamp-vintage">❤️</div>
 
         <div class="visual-corner">
-            <div class="comic-frame" id="snoopyPhoto" title="¡Hazme clic o pasa el mouse por aquí!">
-                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=500&auto=format&fit=crop" alt="Snoopy Heart" onerror="this.src='https://placehold.co/400x400/fff/e2231a?text=Snoopy+%E2%9D%A4%EF%B8%8F'">
+            <div class="comic-frame" id="snoopyPhoto" title="¡Pasa el mouse o haz clic aquí!">
+                <img src="data:image/png;base64,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" alt="Tu Snoopy con corazón">
             </div>
             <div class="woodstock-badge">Abrazos estilo Peanuts 🐾</div>
         </div>
@@ -251,7 +241,6 @@
         const photoFrame = document.getElementById('snoopyPhoto');
 
         function createSnoopyEffects() {
-            // Elementos icónicos de Snoopy y San Valentín
             const elements = ['❤️', '🐾', '🎵', '🎈', '✨', '💕'];
             
             for(let i = 0; i < 6; i++) {
@@ -260,13 +249,12 @@
                 particle.innerHTML = elements[Math.floor(Math.random() * elements.length)];
                 
                 const rect = photoFrame.getBoundingClientRect();
-                // Posicionar cerca del marco de Snoopy
                 particle.style.left = (rect.left + rect.width / 2) + (Math.random() * 40 - 20) + 'px';
                 particle.style.top = (rect.top + rect.height / 2) + 'px';
                 
                 document.body.appendChild(particle);
                 
-                const angle = (Math.random() * Math.PI) + Math.PI; // Trayectoria hacia arriba
+                const angle = (Math.random() * Math.PI) + Math.PI; 
                 const distance = 60 + Math.random() * 80;
                 
                 particle.animate([
@@ -279,10 +267,8 @@
             }
         }
 
-        // Efecto automático continuo cada 3.5 segundos para dar vida a la pantalla
         setInterval(createSnoopyEffects, 3500);
 
-        // Interactividad al tocar o pasar el mouse sobre el cuadro de Snoopy
         photoFrame.addEventListener('click', createSnoopyEffects);
         photoFrame.addEventListener('mouseenter', createSnoopyEffects);
     </script>
