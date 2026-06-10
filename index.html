@@ -7,13 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --latte-dark: #432e24;
-            --latte-medium: #704c3c;
-            --latte-light: #a98068;
-            --cream-premium: #fffcf7;
-            --gold-glow: #e5c158;
-            --rose-pastel: #f3c1bb;
-            --text-cozy: #261913;
+            --snoopy-red: #e2231a;
+            --snoopy-yellow: #fcd116;
+            --snoopy-black: #1a1a1a;
+            --snoopy-white: #ffffff;
+            --cream-bg: #f7f5f0;
+            --text-cozy: #2b2b2b;
         }
 
         * { box-sizing: border-box; }
@@ -25,64 +24,51 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Fondo cálido de cafetería con bokeh integrado */
-            background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.4) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(243,193,187,0.3) 0%, transparent 60%),
-                        linear-gradient(135deg, #eaddcf 0%, #bca18a 100%);
+            /* Fondo con patrón alegre y tierno */
+            background: radial-gradient(circle at 30% 30%, rgba(254, 209, 22, 0.2) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 20%, rgba(226, 35, 26, 0.15) 0%, transparent 50%),
+                        linear-gradient(135deg, #f0eae1 0%, #dcd1c4 100%);
             overflow-x: hidden;
-            perspective: 1000px;
         }
 
-        /* Luces de fondo (Atmósfera tierna) */
-        .bokeh-lights {
-            position: fixed; inset: 0; pointer-events: none; z-index: 1;
-        }
-        .light-orb {
-            position: absolute; background: rgba(255, 252, 240, 0.3); border-radius: 50%;
-            filter: blur(8px); animation: floatOrb infinite ease-in-out;
-        }
-
-        /* POSTAL DE GRAN FORMATO HORIZONTAL */
+        /* Contenedor de la postal estilo cómic premium */
         .premium-postal {
             width: 100%;
-            max-width: 780px;
-            height: 480px;
-            background: var(--cream-premium);
-            border-radius: 20px;
-            border: 1px solid rgba(67, 46, 36, 0.15);
-            /* Sombra multicapa para efecto realista sobre la mesa */
-            box-shadow: 0 30px 70px rgba(67, 46, 36, 0.25),
-                        0 10px 20px rgba(67, 46, 36, 0.1),
-                        inset 0 0 40px rgba(169, 128, 104, 0.08);
+            max-width: 820px;
+            min-height: 500px;
+            background: var(--cream-bg);
+            border-radius: 24px;
+            border: 4px solid var(--snoopy-black);
+            box-shadow: 12px 12px 0px var(--snoopy-black),
+                        0 20px 40px rgba(0,0,0,0.1);
             padding: 35px;
             display: flex;
             gap: 35px;
             position: relative;
             z-index: 10;
-            /* Animación de entrada tridimensional de lujo */
-            opacity: 0;
-            transform: translateY(40px) rotateX(10deg) scale(0.96);
-            animation: postalIntro 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* Textura de papel antiguo/artesanal */
-        .premium-postal::after {
-            content: ""; position: absolute; inset: 0; border-radius: 20px;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
-            pointer-events: none; z-index: 12;
-        }
-
-        /* Divisor Central Estilo Vintage */
+        /* Divisor central con la silueta de la casita de Snoopy */
         .center-divider {
-            width: 2px;
-            background: linear-gradient(to bottom, transparent 5%, rgba(112, 76, 60, 0.15) 15%, rgba(112, 76, 60, 0.15) 85%, transparent 95%);
+            width: 4px;
+            background: var(--snoopy-black);
             height: 100%;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .center-divider::after {
+            content: "🏠";
+            position: absolute;
+            background: var(--cream-bg);
+            font-size: 24px;
+            padding: 5px 0;
         }
 
-        /* --- LADO IZQUIERDO: EL RINCÓN DEL CAFÉ --- */
+        /* --- LADO IZQUIERDO: IMAGEN Y DETALLES --- */
         .visual-corner {
-            flex: 0 0 260px;
+            flex: 0 0 280px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -90,152 +76,96 @@
             position: relative;
         }
 
-        .coffee-composition {
-            position: relative;
-            width: 200px;
-            height: 200px;
+        /* Marco de la foto tipo tira de cómic */
+        .comic-frame {
+            width: 100%;
+            background: var(--snoopy-white);
+            border: 3px solid var(--snoopy-black);
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.15);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+        }
+        .comic-frame:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .comic-frame img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            border: 2px solid var(--snoopy-black);
+            display: block;
+        }
+
+        /* Decoración de Woodstock flotando abajo */
+        .woodstock-badge {
+            margin-top: 20px;
+            background: var(--snoopy-yellow);
+            border: 2px solid var(--snoopy-black);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 3px 3px 0px var(--snoopy-black);
+        }
+
+        /* Sello postal de San Valentín / Snoopy */
+        .stamp-vintage {
+            position: absolute;
+            top: -15px; left: -15px;
+            width: 60px; height: 60px;
+            background: var(--snoopy-red);
+            border: 3px dashed var(--snoopy-white);
+            border-radius: 10px;
+            transform: rotate(-12deg);
             display: flex;
             justify-content: center;
             align-items: center;
+            font-size: 28px;
+            box-shadow: 4px 4px 0px var(--snoopy-black);
+            z-index: 15;
         }
 
-        /* Plato de Porcelana */
-        .porcelain-plate {
-            position: absolute;
-            width: 170px; height: 170px;
-            background: #fff;
-            border: 2px solid rgba(112, 76, 60, 0.1);
-            border-radius: 50%;
-            box-shadow: 0 10px 25px rgba(67, 46, 36, 0.06);
-        }
-        .plate-rim {
-            position: absolute; width: 120px; height: 120px;
-            border: 1px dashed rgba(169, 128, 104, 0.25);
-            border-radius: 50%;
-        }
-
-        /* Taza de Capuchino */
-        .porcelain-cup {
-            position: absolute;
-            width: 110px; height: 110px;
-            background: #fff;
-            border: 3.5px solid var(--latte-dark);
-            border-radius: 50%;
-            box-shadow: 0 8px 20px rgba(67, 46, 36, 0.12);
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; z-index: 5;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .porcelain-cup:hover {
-            transform: scale(1.04) rotate(2deg);
-        }
-        .cup-handle-cozy {
-            position: absolute; right: -15px; top: 32px;
-            width: 22px; height: 32px;
-            border: 3.5px solid var(--latte-dark);
-            border-radius: 0 14px 14px 0;
-            transform: rotate(10deg);
-        }
-
-        /* Arte Latte de Corazón Dulce */
-        .latte-surface {
-            width: 88px; height: 88px;
-            background: #7a5343;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            border: 1px solid var(--latte-dark);
-            overflow: hidden;
-        }
-        .latte-heart {
-            width: 32px; height: 32px;
-            background: #fff8ee;
-            transform: rotate(-45deg);
-            position: relative; top: 4px;
-            box-shadow: 0 0 6px rgba(255, 248, 238, 0.7);
-            animation: pulseHeart 2s infinite ease-in-out;
-        }
-        .latte-heart::before, .latte-heart::after {
-            content: ""; position: absolute;
-            width: 32px; height: 32px; background: #fff8ee; border-radius: 50%;
-        }
-        .latte-heart::before { top: -16px; left: 0; }
-        .latte-heart::after { left: 16px; top: 0; }
-
-        /* Detalles Tiernos Acompañantes */
-        .cookie-heart {
-            position: absolute; bottom: 5px; left: -10px;
-            width: 40px; height: 40px;
-            background: #c68a4c; border: 2.5px solid var(--latte-dark);
-            transform: rotate(15deg); border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            z-index: 6;
-        }
-        .lavender-sprig {
-            position: absolute; bottom: -20px; right: -5px;
-            width: 12px; height: 70px;
-            background: #9ab99a; transform: rotate(-50deg);
-            border-radius: 4px; opacity: 0.7; z-index: 2;
-        }
-
-        /* Vapor Animado Avanzado */
-        .steam-wrapper {
-            position: absolute; top: -15px; display: flex; gap: 14px; z-index: 8;
-        }
-        .steam-puff {
-            width: 3px; height: 35px;
-            background: linear-gradient(to top, rgba(169, 128, 104, 0.4), transparent);
-            border-radius: 50%; opacity: 0;
-            animation: realisticSteam 3.5s infinite ease-in-out;
-        }
-        .steam-puff:nth-child(1) { animation-delay: 0s; }
-        .steam-puff:nth-child(2) { animation-delay: 1.2s; }
-        .steam-puff:nth-child(3) { animation-delay: 2.4s; }
-
-        /* Timbre con Bordes festoneados (Sello de Amor) */
-        .stamp-vintage {
-            position: absolute; top: -15px; left: -15px;
-            width: 55px; height: 65px;
-            border: 2px dashed var(--latte-light);
-            background: rgba(243, 193, 187, 0.15);
-            border-radius: 6px; transform: rotate(-8deg);
-            display: flex; justify-content: center; align-items: center;
-            font-size: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-
-        /* --- LADO DERECHO: LA REDACCIÓN SINCERA --- */
+        /* --- LADO DERECHO: EL TEXTO SINCERO --- */
         .text-corner {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            overflow-y: auto;
-            padding-right: 8px;
         }
-        .text-corner::-webkit-scrollbar { width: 4px; }
-        .text-corner::-webkit-scrollbar-thumb { background: var(--rose-pastel); border-radius: 10px; }
 
         .postal-title {
             font-family: 'Caveat', cursive;
-            font-size: 2.8rem;
-            color: var(--latte-dark);
+            font-size: 3rem;
+            color: var(--snoopy-red);
             margin: 0 0 15px 0;
-            animation: textFadeIn 1s ease forwards 0.3s;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
         }
 
         .postal-letter-p {
             font-family: 'Lora', serif;
-            font-size: 1.02rem;
-            line-height: 1.8;
+            font-size: 1.05rem;
+            line-height: 1.7;
             color: var(--text-cozy);
             text-align: justify;
             margin: 0 0 15px 0;
-            text-indent: 20px;
         }
 
-        .highlight-cozy {
-            font-weight: 600;
-            color: var(--latte-dark);
-            background: linear-gradient(180deg, transparent 70%, rgba(243, 193, 187, 0.5) 70%);
+        /* Resaltados al estilo Snoopy */
+        .highlight-love {
+            font-weight: 700;
+            color: var(--snoopy-black);
+            background: linear-gradient(180deg, transparent 65%, var(--snoopy-yellow) 65%);
+            padding: 0 4px;
+        }
+
+        .highlight-apology {
+            font-weight: 700;
+            color: var(--snoopy-red);
+            background: linear-gradient(180deg, transparent 65%, rgba(243, 193, 187, 0.6) 65%);
+            padding: 0 4px;
         }
 
         /* Bloque de firma */
@@ -243,91 +173,58 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-top: 15px;
-            border-top: 1px dashed rgba(112, 76, 60, 0.15);
+            margin-top: 10px;
+            border-top: 2px dashed rgba(0,0,0,0.15);
             padding-top: 15px;
         }
         .stamp-note {
             font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--latte-light);
+            letter-spacing: 1.5px;
+            color: var(--snoopy-black);
             font-weight: 700;
+            background: #fff;
+            padding: 4px 8px;
+            border: 2px solid var(--snoopy-black);
+            border-radius: 4px;
         }
         .name-sign {
             font-family: 'Caveat', cursive;
-            font-size: 2.4rem;
-            color: var(--latte-dark);
+            font-size: 2.6rem;
+            color: var(--snoopy-red);
             line-height: 1;
         }
 
-        /* --- KEYFRAMES ANIMACIONES --- */
-        @keyframes postalIntro {
-            to { transform: translateY(0) rotateX(0) scale(1); opacity: 1; }
-        }
-        @keyframes pulseHeart {
-            0%, 100% { transform: rotate(-45deg) scale(1); }
-            50% { transform: rotate(-45deg) scale(1.06); }
-        }
-        @keyframes realisticSteam {
-            0% { transform: translateY(15px) scaleX(1); opacity: 0; }
-            15% { opacity: 0.5; filter: blur(1px); }
-            50% { transform: translateY(-25px) scaleX(1.4); opacity: 0.2; filter: blur(2px); }
-            100% { transform: translateY(-50px) scaleX(0.6); opacity: 0; }
-        }
-        @keyframes floatOrb {
-            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
-            50% { transform: translateY(-30px) translateX(15px); opacity: 0.4; }
-        }
-
-        /* Mini notas de aroma flotantes */
+        /* Animación para los elementos interactivos flotantes */
         .aroma-particle {
             position: fixed; pointer-events: none; z-index: 999;
-            font-size: 14px; color: var(--latte-medium); opacity: 0;
+            font-size: 20px; opacity: 0;
         }
 
-        /* Adaptación para pantallas medianas o móviles */
+        /* Diseño responsivo para celulares */
         @media (max-width: 760px) {
             .premium-postal {
                 flex-direction: column;
                 height: auto;
-                max-width: 380px;
+                max-width: 400px;
                 padding: 25px;
             }
-            .center-divider { width: 100%; height: 2px; margin: 20px 0; }
-            .visual-corner { flex: none; height: 180px; }
+            .center-divider { width: 100%; height: 4px; margin: 20px 0; }
+            .center-divider::after { transform: rotate(90deg); }
+            .visual-corner { flex: none; width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bokeh-lights">
-        <div class="light-orb" style="width: 80px; height: 80px; left: 10%; top: 15%; animation-duration: 6s;"></div>
-        <div class="light-orb" style="width: 120px; height: 120px; right: 15%; top: 20%; animation-duration: 8s;"></div>
-        <div class="light-orb" style="width: 60px; height: 60px; left: 75%; bottom: 15%; animation-duration: 5s;"></div>
-    </div>
-
     <div class="premium-postal">
-        <div class="stamp-vintage">🌸</div>
+        <div class="stamp-vintage">❤️</div>
 
         <div class="visual-corner">
-            <div class="steam-wrapper">
-                <div class="steam-puff"></div>
-                <div class="steam-puff"></div>
-                <div class="steam-puff"></div>
+            <div class="comic-frame" id="snoopyPhoto" title="¡Hazme clic o pasa el mouse por aquí!">
+                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=500&auto=format&fit=crop" alt="Snoopy Heart" onerror="this.src='https://placehold.co/400x400/fff/e2231a?text=Snoopy+%E2%9D%A4%EF%B8%8F'">
             </div>
-            <div class="coffee-composition">
-                <div class="porcelain-plate"></div>
-                <div class="plate-rim"></div>
-                <div class="porcelain-cup" id="aromaCup" title="Sienta la calidez del café">
-                    <div class="latte-surface">
-                        <div class="latte-heart"></div>
-                    </div>
-                    <div class="cup-handle-cozy"></div>
-                </div>
-                <div class="cookie-heart"></div>
-                <div class="lavender-sprig"></div>
-            </div>
+            <div class="woodstock-badge">Abrazos estilo Peanuts 🐾</div>
         </div>
 
         <div class="center-divider"></div>
@@ -336,59 +233,58 @@
             <h1 class="postal-title">Hola, Mel...</h1>
             
             <p class="postal-letter-p">
-                Le escribo estas líneas desde la tranquilidad de un momento sincero, con las ganas de abrazar los recuerdos que alegran el alma. Quería expresarle mi gratitud más profunda por nuestra <span class="highlight-cozy">primer salida</span> juntos. Hacía muchísimo tiempo que no compartía un espacio tan transparente; fue una tarde maravillosa que dejó en mí una sensación de calidez y paz inmensas.
+                <span class="highlight-apology">Perdón por casi arruinarlo</span>, casi pierdo a una personita tan maravillosa por un malentendido.
             </p>
 
             <p class="postal-letter-p">
-                Quiero confesarle que me encuentro completamente <span class="highlight-cozy">cautivado por la dulzura de su personalidad</span>. Descubrir la nobleza de su forma de ser ha sido un regalo hermoso. Pero, sobre todo, me fascinan por completo sus ojos y esa preciosa sonrisa que ilumina su rostro cada vez que conversamos. 
-            </p>
-
-            <p class="postal-letter-p">
-                Cada día que pasa valoro más la confianza que ha nacido entre nosotros, y hoy quiero decirle de corazón que <span class="highlight-cozy">siempre deseo estar presente</span> en su vida. Me llena de una ilusión muy viva y genuina ver cómo sigue creciendo esa lista de planes que estamos dibujando juntos, con la certeza de que quiero vivirlos todos a su lado.
+                Y de corazón se lo digo, <span class="highlight-love">me intereso por usted</span>, es real, sincera, con buenas intenciones y si me lo permite se lo seguiré demostrando.
             </p>
 
             <footer class="postal-signature">
-                <div class="stamp-badge stamp-note">Notas de café y cariño ✨</div>
+                <div class="stamp-note">🐾 Amor & Detalles</div>
                 <div class="name-sign">Con amor, Fer</div>
             </footer>
         </main>
     </div>
 
     <script>
-        const cupElement = document.getElementById('aromaCup');
+        const photoFrame = document.getElementById('snoopyPhoto');
 
-        function createAroma() {
-            const symbols = ['☕', '✨', '🌸', '♩', '💕'];
+        function createSnoopyEffects() {
+            // Elementos icónicos de Snoopy y San Valentín
+            const elements = ['❤️', '🐾', '🎵', '🎈', '✨', '💕'];
+            
             for(let i = 0; i < 6; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'aroma-particle';
-                particle.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.innerHTML = elements[Math.floor(Math.random() * elements.length)];
                 
-                const rect = cupElement.getBoundingClientRect();
-                particle.style.left = (rect.left + rect.width / 2) + (Math.random() * 30 - 15) + 'px';
-                particle.style.top = rect.top + 'px';
+                const rect = photoFrame.getBoundingClientRect();
+                // Posicionar cerca del marco de Snoopy
+                particle.style.left = (rect.left + rect.width / 2) + (Math.random() * 40 - 20) + 'px';
+                particle.style.top = (rect.top + rect.height / 2) + 'px';
                 
                 document.body.appendChild(particle);
                 
-                const angle = (Math.random() * Math.PI) + Math.PI; // Dirección ascendente
-                const distance = 50 + Math.random() * 60;
+                const angle = (Math.random() * Math.PI) + Math.PI; // Trayectoria hacia arriba
+                const distance = 60 + Math.random() * 80;
                 
                 particle.animate([
-                    { transform: 'translate(-50%, -50%) scale(0.5)', opacity: 0 },
-                    { opacity: 0.8, offset: 0.2 },
-                    { transform: `translate(calc(-50% + ${Math.cos(angle)*distance}px), calc(-50% + ${Math.sin(angle)*distance}px)) scale(1.2)`, opacity: 0 }
-                ], { duration: 1800, easing: 'ease-out' });
+                    { transform: 'translate(-50%, -50%) scale(0.4) rotate(0deg)', opacity: 0 },
+                    { opacity: 0.9, offset: 0.2 },
+                    { transform: `translate(calc(-50% + ${Math.cos(angle)*distance}px), calc(-50% + ${Math.sin(angle)*distance}px)) scale(1.3) rotate(${Math.random() * 40 - 20}deg)`, opacity: 0 }
+                ], { duration: 2000, easing: 'ease-out' });
                 
-                setTimeout(() => particle.remove(), 1800);
+                setTimeout(() => particle.remove(), 2000);
             }
         }
 
-        // Genera partículas automáticamente cada cierto tiempo para dar vida continua
-        setInterval(createAroma, 4000);
+        // Efecto automático continuo cada 3.5 segundos para dar vida a la pantalla
+        setInterval(createSnoopyEffects, 3500);
 
-        // También reacciona al tacto y cursor del usuario
-        cupElement.addEventListener('click', createAroma);
-        cupElement.addEventListener('mouseenter', createAroma);
+        // Interactividad al tocar o pasar el mouse sobre el cuadro de Snoopy
+        photoFrame.addEventListener('click', createSnoopyEffects);
+        photoFrame.addEventListener('mouseenter', createSnoopyEffects);
     </script>
 </body>
 </html>
